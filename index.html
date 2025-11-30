@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZooMonitor - Monitoramento Inteligente para a Vida Selvagem</title>
+    <link rel="stylesheet" href="css/global/styles.css">
+    <link rel="stylesheet" href="css/global/chatbot.css">
+    <link rel="stylesheet" href="css/pages/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="header-container">
+            <div class="header-left-controls">
+                <div class="header-logo">
+                    <a href="index.html" class="header-logo-text">ZooMonitor</a>
+                </div>
+                <div class="accessibility-controls">
+                    <div class="accessibility-menu">
+                        <button class="accessibility-button" aria-label="Controles de acessibilidade" title="Acessibilidade">
+                            ♿
+                        </button>
+                        <div class="accessibility-menu-content">
+                            <div class="accessibility-menu-title">Acessibilidade</div>
+                            <div class="font-size-controls">
+                                <div class="font-size-label">Tamanho da Fonte</div>
+                                <div class="font-size-buttons">
+                                    <button class="font-size-btn" data-size="small" aria-label="Fonte pequena">A-</button>
+                                    <button class="font-size-btn active" data-size="normal" aria-label="Fonte normal">A</button>
+                                    <button class="font-size-btn" data-size="large" aria-label="Fonte grande">A+</button>
+                                    <button class="font-size-btn" data-size="xlarge" aria-label="Fonte extra grande">A++</button>
+                                </div>
+                            </div>
+                            <div class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+                                <span class="theme-toggle-label">Modo Claro</span>
+                                <span class="theme-toggle-icon">🌙</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <nav class="nav">
+                <a href="#inicio" class="nav-link">Início</a>
+                <a href="#bem-vindo" class="nav-link">Bem-vindo</a>
+                <a href="pages/grupos.html" class="nav-link">Grupos</a>
+                <a href="pages/membros.html" class="nav-link">Membros</a>
+            </nav>
+            <div class="header-spacer">
+                <span class="header-logo-text">ZooMonitor</span>
+            </div>
+            <div class="header-right-controls">
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link nav-dropdown-toggle">☰</a>
+                    <div class="nav-dropdown-menu">
+                        <a href="pages/agendamento-online.html" class="nav-dropdown-link">Agendamento online</a>
+                        <a href="pages/lista-programas.html" class="nav-dropdown-link">Lista de programas</a>
+                        <a href="pages/eventos.html" class="nav-dropdown-link">Eventos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <div class="breadcrumbs-container">
+            <ol class="breadcrumbs-list">
+                <li class="breadcrumbs-item">
+                    <a href="index.html" class="breadcrumbs-link">Início</a>
+                </li>
+            </ol>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Explore nossa missão</h1>
+            <p class="hero-subtitle">Monitoramento inteligente para a vida selvagem</p>
+            <button class="hero-button">Saiba mais</button>
+        </div>
+        <div class="hero-bottom-bar"></div>
+    </section>
+
+    <!-- Sobre o ZooMonitor -->
+    <section id="bem-vindo" class="sobre">
+        <div class="container">
+            <div class="sobre-content">
+                <div class="sobre-text">
+                    <h2 class="section-title">Sobre o ZooMonitor</h2>
+                    <h3 class="section-subtitle">Nossa Missão</h3>
+                    <p class="section-text">
+                        O ZooMonitor é uma plataforma inovadora projetada para o monitoramento eficaz da vida selvagem. Centralizando protocolos de coleta de dados padronizados, compilamos registros detalhados de saúde, comportamento e alimentação de forma intuitiva. Integramos observações visuais, sensores e câmeras para garantir um armazenamento seguro na nuvem, criando um histórico abrangente de cada animal para análises confiáveis. Além disso, oferecemos treinamento online para equipes aplicarem protocolos de bem-estar de maneira consistente, reduzindo erros e economizando tempo no registro de dados.
+                    </p>
+                </div>
+                <div class="sobre-images">
+                    <div class="sobre-image-wrapper">
+                        <img src="images/leopardo-1.avif" alt="Leopardo-das-neves com coleira" class="sobre-image">
+                    </div>
+                    <div class="sobre-divider-horizontal"></div>
+                    <div class="sobre-image-wrapper">
+                        <img src="images/leopardo-2.avif" alt="Leopardo-das-neves perfil" class="sobre-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Serviços -->
+    <section id="grupos" class="servicos">
+        <div class="container">
+            <h2 class="servicos-title">Serviços</h2>
+            <div class="servicos-divider"></div>
+            <div class="servicos-list">
+                <div class="servico-item">
+                    <span class="servico-name">Análise de Dados</span>
+                    <span class="servico-price">R$ 150</span>
+                    <button class="servico-button">Agendar</button>
+                </div>
+                <div class="servicos-divider-item"></div>
+                <div class="servico-item">
+                    <span class="servico-name">Consulta de Suporte</span>
+                    <span class="servico-price">R$ 100</span>
+                    <button class="servico-button">Agendar</button>
+                </div>
+                <div class="servicos-divider-item"></div>
+                <div class="servico-item">
+                    <span class="servico-name">Treinamento de Plataforma</span>
+                    <span class="servico-price">R$ 400</span>
+                    <button class="servico-button">Ver curso</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Evento -->
+    <section class="evento">
+        <div class="container">
+            <div class="evento-content">
+                <div class="evento-text">
+                    <span class="evento-tag">Esgotado</span>
+                    <p class="evento-countdown">0 DIAS PARA O EVENTO</p>
+                    <h2 class="evento-title">Workshop de Bem-Estar Animal 2050</h2>
+                    <p class="evento-date">dom., 02 de nov. | Centro de Convenções Zoológico</p>
+                    <p class="evento-description">Participe de oficinas práticas para aplicar protocolos de bem-estar animal.</p>
+                    <a href="pages/workshop.html" class="evento-button">Informações</a>
+                </div>
+                <div class="evento-image-wrapper">
+                    <img src="images/rinocerontes.avif" alt="Workshop com rinocerontes" class="evento-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Descobertas -->
+    <section class="descobertas">
+        <div class="container">
+            <div class="descobertas-header">
+                <div class="descobertas-title-section">
+                    <h2 class="descobertas-title">Descobertas</h2>
+                    <p class="descobertas-subtitle">Fique por dentro das últimas novidades e descobertas sobre a vida selvagem. Nossos artigos e vídeos exclusivos trazem informações valiosas sobre conservação e bem-estar animal.</p>
+                </div>
+            </div>
+            <div class="descobertas-content">
+                <div class="descobertas-image-wrapper">
+                    <img src="images/Tablet.jpg" alt="Tablet com gráficos de dados" class="descobertas-image">
+                </div>
+                <div class="descobertas-text">
+                    <h3 class="descobertas-text-title">Coleira Inteligente</h3>
+                    <h4 class="descobertas-text-subtitle">COMO FUNCIONA A COLEIRA E SUA COLETA DE DADOS:</h4>
+                    <p class="descobertas-text-content">
+                        As coleiras inteligentes para animais selvagens são ferramentas tecnológicas fundamentais para o monitoramento de saúde, comportamento e deslocamento. Esses dispositivos integram um módulo eletrônico com sensores fisiológicos (frequência cardíaca, respiração, temperatura corporal), acelerômetros (padrões de atividade e movimento) e sistemas de georreferenciamento (GPS ou VHF).
+                    </p>
+                    <p class="descobertas-text-content">
+                        A fonte de energia geralmente é composta por baterias de longa duração, complementadas por painéis solares para maior autonomia em ambientes remotos. A coleta de dados ocorre por dois métodos principais: (i) transmissão em tempo real via satélite, GSM ou redes de radiofrequência para rastreamento imediato, e (ii) armazenamento interno (data logger), onde os registros são mantidos até a recuperação da coleira (seja por recaptura do animal ou desprendimento automático).
+                    </p>
+                    <p class="descobertas-text-content">
+                        Os dados coletados são então transferidos para plataformas digitais para processamento e análise, gerando séries temporais e mapas de deslocamento. Essas informações auxiliam na compreensão de padrões ecológicos, incluindo rotas migratórias, áreas de uso, comportamentos reprodutivos e condições fisiológicas das populações monitoradas.
+                    </p>
+                    <p class="descobertas-text-content">
+                        A relevância dessa tecnologia para a conservação da vida selvagem se reflete no suporte à proteção de espécies ameaçadas, identificação de riscos à saúde e formulação de estratégias de manejo que minimizem conflitos entre animais e comunidades humanas.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profissionais -->
+    <section class="profissionais">
+        <div class="container">
+            <div class="profissionais-content">
+                <div class="profissionais-text">
+                    <h2 class="section-title">Nossos Profissionais</h2>
+                    <h3 class="section-subtitle">PESQUISADORES E CIENTISTAS:</h3>
+                    <p class="section-text">
+                        Os pesquisadores e cientistas trabalham diretamente com animais selvagens, organizando espécies, cuidando e observando. Utilizam coleiras de telemetria, seguem normas éticas, monitoram a saúde com veterinários e biólogos, aplicam exames e escolhem dispositivos que minimizem riscos. Na observação, utilizam telemetria, armadilhas fotográficas e sensores para entender deslocamentos, interações e comportamento. Esses dados subsidiam políticas públicas, áreas de proteção e ações de conservação, além de integrar bancos globais que fortalecem a colaboração científica internacional.
+                    </p>
+                </div>
+                <div class="profissionais-image-wrapper">
+                    <img src="images/MuleDoTablet.jpg" alt="Pesquisadora com tablet" class="profissionais-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galeria -->
+    <section class="galeria">
+        <div class="container">
+            <div class="galeria-content-bottom">
+                <div class="galeria-image-bottom-wrapper">
+                    <img src="images/cabana-zebras.jpg" alt="Cabana com zebras ao pôr do sol" class="galeria-image-bottom">
+                </div>
+                <div class="galeria-text-bottom">
+                    <h2 class="section-title">Galeria</h2>
+                    <h3 class="section-subtitle">CAPTURA DE IMAGENS:</h3>
+                    <p class="section-text">
+                        Nossas imagens capturam momentos únicos da natureza, transmitindo a essência e a majestade dos animais em seu habitat natural.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Equipe -->
+    <section class="equipe">
+        <div class="container">
+            <div class="equipe-divider-top"></div>
+            <h2 class="equipe-title">Equipe:</h2>
+            <div class="equipe-members">
+                <div class="equipe-member">
+                    <div class="equipe-member-image">
+                        <img src="images/Marina.avif" alt="Marina">
+                    </div>
+                    <h3 class="equipe-member-name">Marina</h3>
+                    <p class="equipe-member-role">Gestora de zoológico</p>
+                </div>
+                <div class="equipe-member">
+                    <div class="equipe-member-image">
+                        <img src="images/Carlos.avif" alt="Carlos">
+                    </div>
+                    <h3 class="equipe-member-name">Carlos</h3>
+                    <p class="equipe-member-role">Médico Veterinário</p>
+                </div>
+                <div class="equipe-member">
+                    <div class="equipe-member-image">
+                        <img src="images/Joao.avif" alt="João">
+                    </div>
+                    <h3 class="equipe-member-name">João</h3>
+                    <p class="equipe-member-role">DEV</p>
+                </div>
+                <div class="equipe-member">
+                    <div class="equipe-member-image">
+                        <img src="images/Julia.avif" alt="Julia">
+                    </div>
+                    <h3 class="equipe-member-name">Julia</h3>
+                    <p class="equipe-member-role">Educadora Ambiental</p>
+                </div>
+            </div>
+            <div class="equipe-divider-bottom"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <h2 class="footer-brand">ZooMonitor</h2>
+                    <div class="footer-newsletter">
+                        <h3 class="footer-newsletter-title">Fique Conectado</h3>
+                        <form class="footer-form">
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email *</label>
+                                <input type="email" id="email" class="form-input" required>
+                            </div>
+                            <div class="form-checkbox-group">
+                                <input type="checkbox" id="newsletter" class="form-checkbox" required>
+                                <label for="newsletter" class="form-checkbox-label">Yes, subscribe me to your newsletter. *</label>
+                            </div>
+                            <button type="submit" class="form-button">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="footer-right">
+                    <div class="footer-right-content">
+                        <div class="footer-contact">
+                            <h4 class="footer-contact-title">Contato</h4>
+                            <div class="footer-contact-divider"></div>
+                            <div class="footer-contact-item-wrapper">
+                                <span class="footer-contact-icon">📞</span>
+                                <p class="footer-contact-item">(11) 3456-7890</p>
+                            </div>
+                            <div class="footer-contact-item-wrapper">
+                                <span class="footer-contact-icon">✉️</span>
+                                <p class="footer-contact-item">info@zoomonitor.com</p>
+                            </div>
+                            <div class="footer-address">
+                                <div class="footer-contact-item-wrapper">
+                                    <span class="footer-contact-icon">📍</span>
+                                    <div class="footer-address-text">
+                                        <p class="footer-contact-item">Rua Dom Manoel da</p>
+                                        <p class="footer-contact-item">Costa, Torre, Recife,</p>
+                                        <p class="footer-contact-item">Pernambuco - CEP 50710375</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer-social-section">
+                            <h4 class="footer-social-title">Siga-nos</h4>
+                            <div class="footer-contact-divider"></div>
+                            <div class="footer-social">
+                                <a href="#" class="social-icon" aria-label="Facebook" title="Facebook">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                                </a>
+                                <a href="#" class="social-icon" aria-label="Instagram" title="Instagram">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                                </a>
+                                <a href="#" class="social-icon" aria-label="Twitter" title="Twitter">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                                </a>
+                                <a href="#" class="social-icon" aria-label="TikTok" title="TikTok">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-links-wrapper">
+                        <h4 class="footer-links-title">Informações Legais</h4>
+                        <div class="footer-contact-divider"></div>
+                        <div class="footer-links">
+                            <a href="#" class="footer-link">Política de Privacidade</a>
+                            <a href="#" class="footer-link">Declaração de acessibilidade</a>
+                            <a href="#" class="footer-link">Termos e Condições</a>
+                            <a href="#" class="footer-link">Política de Reembolso</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    <p>&copy; 2024 ZooMonitor. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/accessibility.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/chatbot.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Imagens - ZooMonitor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1A472A;
+            color: white;
+        }
+        .imagem-teste {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+        }
+        .imagem-teste img {
+            max-width: 300px;
+            height: auto;
+            display: block;
+            margin: 10px 0;
+            border: 2px solid white;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .ok { background: green; }
+        .erro { background: red; }
+    </style>
+</head>
+<body>
+    <h1>Teste de Imagens - ZooMonitor</h1>
+    <p>Esta página verifica se as imagens estão na pasta correta.</p>
+    
+    <div class="imagem-teste">
+        <h3>1. hero-elefante.jpg <span id="status1" class="status">Verificando...</span></h3>
+        <img src="images/hero-elefante.jpg" alt="Elefante" onerror="document.getElementById('status1').innerHTML='❌ NÃO ENCONTRADA'; document.getElementById('status1').className='status erro';" onload="document.getElementById('status1').innerHTML='✅ OK'; document.getElementById('status1').className='status ok';">
+    </div>
+
+    <div class="imagem-teste">
+        <h3>2. leopardo-1.jpg <span id="status2" class="status">Verificando...</span></h3>
+        <img src="images/leopardo-1.jpg" alt="Leopardo 1" onerror="document.getElementById('status2').innerHTML='❌ NÃO ENCONTRADA'; document.getElementById('status2').className='status erro';" onload="document.getElementById('status2').innerHTML='✅ OK'; document.getElementById('status2').className='status ok';">
+    </div>
+
+    <div class="imagem-teste">
+        <h3>3. leopardo-2.jpg <span id="status3" class="status">Verificando...</span></h3>
+        <img src="images/leopardo-2.jpg" alt="Leopardo 2" onerror="document.getElementById('status3').innerHTML='❌ NÃO ENCONTRADA'; document.getElementById('status3').className='status erro';" onload="document.getElementById('status3').innerHTML='✅ OK'; document.getElementById('status3').className='status ok';">
+    </div>
+
+    <div class="imagem-teste">
+        <h3>4. rinocerontes.jpg <span id="status4" class="status">Verificando...</span></h3>
+        <img src="images/rinocerontes.jpg" alt="Rinocerontes" onerror="document.getElementById('status4').innerHTML='❌ NÃO ENCONTRADA'; document.getElementById('status4').className='status erro';" onload="document.getElementById('status4').innerHTML='✅ OK'; document.getElementById('status4').className='status ok';">
+    </div>
+
+    <div class="imagem-teste">
+        <h3>5. tablet-graficos.jpg <span id="status5" class="status">Verificando...</span></h3>
+        <img src="images/tablet-graficos.jpg" alt="Tablet" onerror="document.getElementById('status5').innerHTML='❌ NÃO ENCONTRADA'; document.getElementById('status5').className='status erro';" onload="document.getElementById('status5').innerHTML='✅ OK'; document.getElementById('status5').className='status ok';">
+    </div>
+
+    <div class="imagem-teste">
+        <h3>6. profissional-tablet.jpg <span id="status6" class="status">Verificando...</span></h3>
+        <img src="images/profissional-tablet.jpg" alt="Profissional" onerror="document.getElementById('status6').innerHTML='❌ NÃO ENCONTRADA'; document.getElementById('status6').className='status erro';" onload="document.getElementById('status6').innerHTML='✅ OK'; document.getElementById('status6').className='status ok';">
+    </div>
+
+    <div class="imagem-teste">
+        <h3>7. profissional-tablet-2.jpg <span id="status7" class="status">Verificando...</span></h3>
+        <img src="images/profissional-tablet-2.jpg" alt="Profissional 2" onerror="document.getElementById('status7').innerHTML='❌ NÃO ENCONTRADA'; document.getElementById('status7').className='status erro';" onload="document.getElementById('status7').innerHTML='✅ OK'; document.getElementById('status7').className='status ok';">
+    </div>
+
+    <div class="imagem-teste">
+        <h3>8. cabana-zebras.jpg <span id="status8" class="status">Verificando...</span></h3>
+        <img src="images/cabana-zebras.jpg" alt="Cabana" onerror="document.getElementById('status8').innerHTML='❌ NÃO ENCONTRADA'; document.getElementById('status8').className='status erro';" onload="document.getElementById('status8').innerHTML='✅ OK'; document.getElementById('status8').className='status ok';">
+    </div>
+
+    <div class="imagem-teste">
+        <h3>9. marina.jpg <span id="status9" class="status">Verificando...</span></h3>
+        <img src="images/marina.jpg" alt="Marina" onerror="document.getElementById('status9').innerHTML='❌ NÃO ENCONTRADA'; document.getElementById('status9').className='status erro';" onload="document.getElementById('status9').innerHTML='✅ OK'; document.getElementById('status9').className='status ok';">
+    </div>
+
+    <div class="imagem-teste">
+        <h3>10. carlos.jpg <span id="status10" class="status">Verificando...</span></h3>
+        <img src="images/carlos.jpg" alt="Carlos" onerror="document.getElementById('status10').innerHTML='❌ NÃO ENCONTRADA'; document.getElementById('status10').className='status erro';" onload="document.getElementById('status10').innerHTML='✅ OK'; document.getElementById('status10').className='status ok';">
+    </div>
+
+    <div class="imagem-teste">
+        <h3>11. joao.jpg <span id="status11" class="status">Verificando...</span></h3>
+        <img src="images/joao.jpg" alt="João" onerror="document.getElementById('status11').innerHTML='❌ NÃO ENCONTRADA'; document.getElementById('status11').className='status erro';" onload="document.getElementById('status11').innerHTML='✅ OK'; document.getElementById('status11').className='status ok';">
+    </div>
+
+    <div class="imagem-teste">
+        <h3>12. julia.jpg <span id="status12" class="status">Verificando...</span></h3>
+        <img src="images/julia.jpg" alt="Julia" onerror="document.getElementById('status12').innerHTML='❌ NÃO ENCONTRADA'; document.getElementById('status12').className='status erro';" onload="document.getElementById('status12').innerHTML='✅ OK'; document.getElementById('status12').className='status ok';">
+    </div>
+
+    <hr style="margin: 40px 0; border-color: white;">
+    <h2>📋 Instruções:</h2>
+    <ol>
+        <li>Abra a pasta: <strong>C:\PROJETOS\ZooMonitorPE\images</strong></li>
+        <li>Copie suas imagens para essa pasta</li>
+        <li>Renomeie cada imagem com o nome exato mostrado acima</li>
+        <li>Recarregue esta página (F5) para verificar</li>
+        <li>Quando todas estiverem ✅ OK, abra o index.html</li>
+    </ol>
+</body>
+</html>
+

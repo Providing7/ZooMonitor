@@ -1,0 +1,209 @@
+/* Lista de Programas Page - Estilos específicos */
+/* Nota: Este arquivo deve ser incluído após styles.css no HTML */
+
+.programas-page {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-tertiary) 100%);
+    padding: 120px 0 80px;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.programas-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 80px,
+            rgba(45, 90, 61, 0.03) 80px,
+            rgba(45, 90, 61, 0.03) 82px
+        );
+    pointer-events: none;
+    z-index: 0;
+}
+
+.programas-page > .container {
+    position: relative;
+    z-index: 1;
+}
+
+.programas-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 50px;
+    text-align: left;
+    padding-left: 0;
+    position: relative;
+    padding-bottom: 25px;
+}
+
+.programas-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(to right, var(--beige), transparent);
+}
+
+.programas-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    width: 100%;
+}
+
+.programa-card {
+    background: rgba(26, 71, 42, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.programa-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(212, 197, 169, 0.3);
+}
+
+.programa-card-image {
+    width: 100%;
+    height: 240px;
+    overflow: hidden;
+    background-color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.programa-card-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent 0%, rgba(26, 71, 42, 0.4) 100%);
+    pointer-events: none;
+}
+
+.programa-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s;
+}
+
+.programa-card:hover .programa-card-image img {
+    transform: scale(1.1);
+}
+
+.programa-card-content {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 1;
+}
+
+.programa-card-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--white);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.programa-card-price {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--beige);
+    margin: 0;
+}
+
+.programa-card-button {
+    background: linear-gradient(135deg, var(--beige) 0%, #C4B596 100%);
+    border: none;
+    padding: 12px 28px;
+    color: var(--dark-green);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 8px;
+    align-self: flex-start;
+    transition: all 0.3s;
+    margin-top: 8px;
+    width: auto;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 3px 10px rgba(212, 197, 169, 0.3);
+}
+
+.programa-card-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(212, 197, 169, 0.4);
+}
+
+/* Responsive para Lista de Programas */
+@media (max-width: 1024px) {
+    .programas-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    .programas-cards {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .programas-title {
+        font-size: 38px;
+    }
+}
+
+/* ========================================
+   TEMA CLARO - Lista de Programas Page
+   ======================================== */
+
+[data-theme="light"] .programas-page {
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+}
+
+[data-theme="light"] .programas-title {
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .programa-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: var(--light-green);
+}
+
+[data-theme="light"] .programa-card-title {
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .programa-card-price {
+    color: var(--light-green);
+}
+

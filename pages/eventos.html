@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos - ZooMonitor</title>
+    <link rel="stylesheet" href="../css/global/styles.css">
+    <link rel="stylesheet" href="../css/pages/eventos.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="header-container">
+            <div class="header-left-controls">
+                <div class="header-logo">
+                    <a href="../index.html" class="header-logo-text">ZooMonitor</a>
+                </div>
+                <div class="accessibility-controls">
+                    <div class="accessibility-menu">
+                        <button class="accessibility-button" aria-label="Controles de acessibilidade" title="Acessibilidade">
+                            ♿
+                        </button>
+                        <div class="accessibility-menu-content">
+                            <div class="accessibility-menu-title">Acessibilidade</div>
+                            <div class="font-size-controls">
+                                <div class="font-size-label">Tamanho da Fonte</div>
+                                <div class="font-size-buttons">
+                                    <button class="font-size-btn" data-size="small" aria-label="Fonte pequena">A-</button>
+                                    <button class="font-size-btn active" data-size="normal" aria-label="Fonte normal">A</button>
+                                    <button class="font-size-btn" data-size="large" aria-label="Fonte grande">A+</button>
+                                    <button class="font-size-btn" data-size="xlarge" aria-label="Fonte extra grande">A++</button>
+                                </div>
+                            </div>
+                            <div class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+                                <span class="theme-toggle-label">Modo Claro</span>
+                                <span class="theme-toggle-icon">🌙</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <nav class="nav">
+                <a href="../index.html#inicio" class="nav-link">Início</a>
+                <a href="../index.html#bem-vindo" class="nav-link">Bem-vindo</a>
+                <a href="grupos.html" class="nav-link">Grupos</a>
+                <a href="membros.html" class="nav-link">Membros</a>
+            </nav>
+            <div class="header-spacer">
+                <span class="header-logo-text">ZooMonitor</span>
+            </div>
+            <div class="header-right-controls">
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link nav-dropdown-toggle">☰</a>
+                    <div class="nav-dropdown-menu">
+                        <a href="agendamento-online.html" class="nav-dropdown-link">Agendamento online</a>
+                        <a href="lista-programas.html" class="nav-dropdown-link">Lista de programas</a>
+                        <a href="eventos.html" class="nav-dropdown-link">Eventos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Eventos Page -->
+    <section class="eventos-page">
+        <div class="container">
+            <div class="eventos-cards">
+                <div class="evento-card">
+                    <div class="evento-card-image">
+                        <img src="../images/rinocerontes.avif" alt="Workshop de Bem-Estar Animal 2050">
+                    </div>
+                    <div class="evento-card-content">
+                        <h3 class="evento-card-title">Workshop de Bem-Estar Animal 2050</h3>
+                        <p class="evento-card-date">dom., 02 de nov. | Centro de Convenções Zoológico</p>
+                        <a href="workshop.html" class="evento-card-link">Mais informações</a>
+                        <a href="workshop.html" class="evento-card-button">Informações</a>
+                    </div>
+                </div>
+                
+                <div class="evento-card">
+                    <div class="evento-card-image">
+                        <img src="../images/evento-festa.jpg" alt="Festa de Celebração ZooMonitor 2070">
+                    </div>
+                    <div class="evento-card-content">
+                        <h3 class="evento-card-title">Festa de Celebração ZooMonitor 2070</h3>
+                        <p class="evento-card-date">dom., 02 de nov. | Espaço Cultural EcoVida</p>
+                        <a href="#" class="evento-card-link">Mais informações</a>
+                        <a href="#" class="evento-card-button">Informações</a>
+                    </div>
+                </div>
+                
+                <div class="evento-card">
+                    <div class="evento-card-image">
+                        <img src="../images/evento-conferencia.jpg" alt="Conferência Futuro da Monitorização de Fauna">
+                    </div>
+                    <div class="evento-card-content">
+                        <h3 class="evento-card-title">Conferência Futuro da Monitorização de Fauna</h3>
+                        <p class="evento-card-date">dom., 02 de nov. | Auditório do ZooMonitor</p>
+                        <a href="#" class="evento-card-link">Mais informações</a>
+                        <a href="#" class="evento-card-button">Informações</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../js/accessibility.js"></script>
+    <script src="../js/script.js"></script>
+</body>
+</html>
+

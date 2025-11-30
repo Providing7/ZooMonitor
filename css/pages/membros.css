@@ -1,0 +1,372 @@
+/* Members Page - Estilos específicos */
+/* Nota: Este arquivo deve ser incluído após styles.css no HTML */
+
+.members-page {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-tertiary) 100%);
+    padding: 120px 0 80px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.members-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 50% 50%, rgba(45, 90, 61, 0.2) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.members-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.members-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    background: rgba(26, 71, 42, 0.5);
+    backdrop-filter: blur(10px);
+    padding: 60px 40px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.members-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 20px;
+    text-align: center;
+    position: relative;
+    padding-bottom: 25px;
+}
+
+.members-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(to right, transparent, var(--beige), transparent);
+}
+
+.members-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 35px;
+    text-align: center;
+    line-height: 1.7;
+}
+
+.members-login-button {
+    background: linear-gradient(135deg, var(--beige) 0%, #C4B596 100%);
+    border: none;
+    padding: 14px 45px;
+    color: var(--dark-green);
+    font-family: 'Inter', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s;
+    margin-top: 15px;
+    box-shadow: 0 5px 15px rgba(212, 197, 169, 0.3);
+}
+
+.members-login-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(212, 197, 169, 0.4);
+}
+
+/* Register Modal */
+.register-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    align-items: center;
+    justify-content: center;
+}
+
+.register-modal-content {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-tertiary) 100%);
+    padding: 55px 45px;
+    border-radius: 15px;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.register-modal-close {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--white);
+    font-size: 32px;
+    font-weight: 300;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    line-height: 1;
+    border-radius: 50%;
+}
+
+.register-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+.register-modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.register-modal-login-link {
+    font-family: 'Inter', sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    margin-bottom: 35px;
+    display: block;
+}
+
+.register-login-link {
+    color: var(--beige);
+    text-decoration: underline;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.register-login-link:hover {
+    color: var(--white);
+}
+
+.register-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 35px;
+}
+
+.register-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 16px 25px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 17px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.register-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.register-button-google {
+    background: linear-gradient(135deg, #FFFFFF 0%, #F5F5F5 100%);
+    color: #333;
+}
+
+.register-button-google .register-button-icon {
+    font-size: 22px;
+    font-weight: 700;
+    color: #4285F4;
+}
+
+.register-button-facebook {
+    background: linear-gradient(135deg, #1877F2 0%, #0D6EFD 100%);
+    color: var(--white);
+}
+
+.register-button-facebook .register-button-icon {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+}
+
+.register-button-email {
+    background: transparent;
+    color: var(--white);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.register-button-email:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.register-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 15px 0;
+    position: relative;
+}
+
+.register-divider::before,
+.register-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.register-divider span {
+    padding: 0 18px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.register-disclaimer {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    line-height: 1.6;
+}
+
+/* Footer Members */
+.footer-members {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 25px 45px;
+    background-color: transparent;
+    z-index: 100;
+}
+
+.footer-members-content {
+    text-align: right;
+}
+
+.footer-copyright {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+}
+
+/* Responsive para Members */
+@media (max-width: 768px) {
+    .members-title {
+        font-size: 32px;
+    }
+
+    .members-subtitle {
+        font-size: 16px;
+    }
+
+    .register-modal-content {
+        padding: 40px 30px;
+    }
+}
+
+/* ========================================
+   TEMA CLARO - Membros Page
+   ======================================== */
+
+[data-theme="light"] .members-page {
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+}
+
+[data-theme="light"] .members-content {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: var(--light-green);
+}
+
+[data-theme="light"] .members-title,
+[data-theme="light"] .members-subtitle {
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .register-modal-content {
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+    border-color: var(--light-green);
+}
+
+[data-theme="light"] .register-modal-title,
+[data-theme="light"] .register-modal-login-link,
+[data-theme="light"] .register-divider span,
+[data-theme="light"] .register-disclaimer {
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .register-button-email {
+    border-color: var(--light-green);
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .register-divider::before,
+[data-theme="light"] .register-divider::after {
+    border-bottom-color: var(--light-green);
+}
+
+[data-theme="light"] .footer-copyright {
+    color: var(--text-primary);
+}
+

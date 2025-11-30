@@ -1,0 +1,654 @@
+/* ========================================
+   GLOBAL STYLES - Estilos compartilhados
+   ========================================
+   Este arquivo contém apenas estilos globais:
+   - Reset CSS
+   - Variáveis CSS
+   - Body e Container base
+   - Header Navigation (compartilhado em todas as páginas)
+   - Dropdown Menu
+   
+   Cada página tem seu próprio arquivo CSS específico.
+   ======================================== */
+
+/* Reset e Variáveis */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ========================================
+   SISTEMA DE TEMAS E TIPOGRAFIA
+   ======================================== */
+
+:root {
+    /* Cores Base - Tema Escuro (Padrão) */
+    --dark-green: #1A472A;
+    --light-text: #F5F5DC;
+    --white: #FFFFFF;
+    --beige: #D4C5A9;
+    --red: #DC3545;
+    --light-green: #2D5A3D;
+    
+    /* Backgrounds */
+    --bg-primary: #1A472A;
+    --bg-secondary: #2D5A3D;
+    --bg-tertiary: #0F2E1C;
+    
+    /* Textos */
+    --text-primary: #FFFFFF;
+    --text-secondary: #F5F5DC;
+    --text-muted: rgba(255, 255, 255, 0.7);
+    
+    /* Tamanho de Fonte Base (Typescale) */
+    --font-size-base: 1rem; /* 16px */
+    --font-scale: 1.25; /* Major Third */
+    
+    /* Typescale - Hierarquia Tipográfica */
+    --font-size-xs: calc(var(--font-size-base) / var(--font-scale) / var(--font-scale)); /* 0.64rem = 10.24px */
+    --font-size-sm: calc(var(--font-size-base) / var(--font-scale)); /* 0.8rem = 12.8px */
+    --font-size-md: var(--font-size-base); /* 1rem = 16px */
+    --font-size-lg: calc(var(--font-size-base) * var(--font-scale)); /* 1.25rem = 20px */
+    --font-size-xl: calc(var(--font-size-base) * var(--font-scale) * var(--font-scale)); /* 1.563rem = 25px */
+    --font-size-2xl: calc(var(--font-size-base) * var(--font-scale) * var(--font-scale) * var(--font-scale)); /* 1.953rem = 31.25px */
+    --font-size-3xl: calc(var(--font-size-base) * var(--font-scale) * var(--font-scale) * var(--font-scale) * var(--font-scale)); /* 2.441rem = 39.06px */
+    --font-size-4xl: calc(var(--font-size-base) * var(--font-scale) * var(--font-scale) * var(--font-scale) * var(--font-scale) * var(--font-scale)); /* 3.052rem = 48.83px */
+}
+
+/* Tema Claro */
+[data-theme="light"] {
+    --bg-primary: #F5F5DC;
+    --bg-secondary: #E8E8D0;
+    --bg-tertiary: #D4C5A9;
+    --text-primary: #1A472A;
+    --text-secondary: #2D5A3D;
+    --text-muted: rgba(26, 71, 42, 0.7);
+    --dark-green: #1A472A;
+    --light-green: #2D5A3D;
+    --light-text: #2D5A3D;
+    /* Manter branco para elementos que precisam (como hero) */
+    --white: #FFFFFF;
+}
+
+/* Elementos que devem manter texto branco mesmo no modo claro (hero, etc) */
+[data-theme="light"] .hero-title,
+[data-theme="light"] .hero-subtitle,
+[data-theme="light"] .hero-button,
+[data-theme="light"] .hero * {
+    color: #FFFFFF !important;
+}
+
+/* Header no modo claro - garantir contraste */
+[data-theme="light"] .header {
+    background: rgba(26, 71, 42, 0.95) !important;
+    backdrop-filter: blur(15px);
+}
+
+[data-theme="light"] .header-logo-text,
+[data-theme="light"] .nav-link,
+[data-theme="light"] .accessibility-button,
+[data-theme="light"] .breadcrumbs-link,
+[data-theme="light"] .breadcrumbs-separator {
+    color: #F5F5DC !important;
+}
+
+[data-theme="light"] .header-logo-text:hover,
+[data-theme="light"] .nav-link:hover {
+    color: #FFFFFF !important;
+    opacity: 1 !important;
+}
+
+[data-theme="light"] .accessibility-menu-title,
+[data-theme="light"] .font-size-label,
+[data-theme="light"] .font-size-btn,
+[data-theme="light"] .theme-toggle-label {
+    color: #FFFFFF !important;
+}
+
+/* Tamanhos de Fonte - Níveis de Acessibilidade */
+[data-font-size="small"] {
+    --font-size-base: 0.875rem; /* 14px */
+    font-size: 87.5%; /* 14px base */
+}
+
+[data-font-size="normal"] {
+    --font-size-base: 1rem; /* 16px */
+    font-size: 100%; /* 16px base */
+}
+
+[data-font-size="large"] {
+    --font-size-base: 1.125rem; /* 18px */
+    font-size: 112.5%; /* 18px base */
+}
+
+[data-font-size="xlarge"] {
+    --font-size-base: 1.25rem; /* 20px */
+    font-size: 125%; /* 20px base */
+}
+
+html {
+    font-size: var(--font-size-base);
+    transition: font-size 0.3s ease;
+}
+
+/* Garantir que todos os elementos herdem o tamanho escalável */
+html[data-font-size] {
+    font-size: var(--font-size-base) !important;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease, font-size 0.3s ease;
+}
+
+/* Aplicar font-size-base em todos os elementos para escalabilidade */
+* {
+    font-size: inherit;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+/* Header Navigation - Compartilhado em todas as páginas */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 20px 0;
+    background: transparent;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s;
+    overflow: visible;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 30px;
+    position: relative;
+    overflow: visible;
+}
+
+.header-left-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-right-controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    z-index: 1001;
+}
+
+/* O menu será posicionado dinamicamente via JavaScript */
+
+/* O menu será posicionado dinamicamente via JavaScript */
+
+.header-logo {
+    display: flex;
+    align-items: center;
+}
+
+.header-logo-text {
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+.header-logo-text:hover {
+    opacity: 0.8;
+}
+
+.nav {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.header-spacer {
+    display: flex;
+    align-items: center;
+    visibility: hidden;
+}
+
+/* Controles de Acessibilidade */
+.accessibility-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    overflow: visible;
+}
+
+.accessibility-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: var(--white);
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    width: 40px;
+    height: 40px;
+    backdrop-filter: blur(10px);
+}
+
+.accessibility-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--beige);
+    transform: scale(1.05);
+}
+
+.accessibility-button:active {
+    transform: scale(0.95);
+}
+
+.accessibility-button.active {
+    background: rgba(212, 197, 169, 0.3);
+    border-color: var(--beige);
+}
+
+/* Menu de Controles de Acessibilidade */
+.accessibility-menu {
+    position: relative;
+    display: inline-block;
+    z-index: 1002;
+}
+
+/* Evitar que hover do menu interfira com outros elementos */
+.accessibility-menu > * {
+    direction: ltr; /* Restaurar direção normal no conteúdo */
+    text-align: left; /* Restaurar alinhamento de texto normal */
+}
+
+.accessibility-menu-content {
+    display: none;
+    position: fixed;
+    background-color: rgba(26, 71, 42, 0.98);
+    backdrop-filter: blur(15px);
+    min-width: 240px;
+    max-width: 280px;
+    width: 280px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    z-index: 1002;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+    direction: ltr;
+    margin: 0;
+}
+
+/* Garantir que o menu sempre apareça à direita */
+.accessibility-menu-content {
+    transform-origin: top right;
+}
+
+/* Forçar posicionamento à direita em todos os casos */
+.accessibility-menu:hover .accessibility-menu-content,
+.accessibility-menu-content[style*="display: block"],
+.accessibility-menu-content.show {
+    display: block !important;
+}
+
+/* Ajuste especial para telas menores - garantir que menu apareça */
+@media (max-width: 1200px) {
+    .header-container::after {
+        display: none;
+    }
+}
+
+/* Mobile: menu posicionado dinamicamente via JS */
+
+/* Evitar que o container corte o menu */
+body {
+    overflow-x: hidden;
+}
+
+.header, 
+.header-container, 
+.accessibility-controls, 
+.accessibility-menu,
+.accessibility-menu-content {
+    overflow: visible !important;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Não duplicar - já está acima */
+
+.accessibility-menu-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.accessibility-menu-title::before {
+    content: '♿';
+    font-size: 18px;
+}
+
+.font-size-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.font-size-label {
+    font-size: 13px;
+    color: var(--white);
+    margin-bottom: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.9;
+}
+
+.font-size-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.font-size-btn {
+    flex: 1;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: var(--white);
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 12px;
+    text-align: center;
+}
+
+.font-size-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.font-size-btn.active {
+    background: rgba(212, 197, 169, 0.3);
+    border-color: var(--beige);
+}
+
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--beige);
+    transform: translateX(3px);
+}
+
+.theme-toggle-label {
+    font-size: 14px;
+    color: var(--white);
+    font-weight: 500;
+}
+
+.theme-toggle-icon {
+    font-size: 22px;
+    transition: transform 0.3s;
+}
+
+.theme-toggle:hover .theme-toggle-icon {
+    transform: scale(1.1);
+}
+
+.nav-link {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 400;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--beige);
+    transition: width 0.3s;
+}
+
+.nav-link:hover {
+    opacity: 0.9;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Dropdown Menu */
+.nav-dropdown {
+    position: relative;
+    display: inline-block;
+    margin: 0;
+}
+
+.nav-dropdown-toggle {
+    cursor: pointer;
+    font-size: 24px;
+    line-height: 1;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    text-decoration: none;
+    transition: all 0.3s;
+    border-radius: 6px;
+}
+
+.nav-dropdown-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: -20px;
+    background-color: rgba(26, 71, 42, 0.95);
+    backdrop-filter: blur(10px);
+    min-width: 200px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    z-index: 1001;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 10px 0;
+}
+
+.nav-dropdown:hover .nav-dropdown-menu {
+    display: block;
+}
+
+.nav-dropdown-link {
+    display: block;
+    padding: 12px 20px;
+    color: var(--white);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 400;
+    transition: all 0.3s;
+}
+
+.nav-dropdown-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding-left: 25px;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+    padding: 100px 0 20px;
+    background: transparent;
+}
+
+.breadcrumbs-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.breadcrumbs-list {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    list-style: none;
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+.breadcrumbs-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.breadcrumbs-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.breadcrumbs-link:hover {
+    color: var(--beige);
+}
+
+.breadcrumbs-separator {
+    color: var(--text-muted);
+    opacity: 0.5;
+}
+
+.breadcrumbs-current {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* Responsive para Header */
+@media (max-width: 768px) {
+    .nav {
+        gap: 15px;
+    }
+
+    .nav-link {
+        font-size: 14px;
+    }
+
+    .header-container {
+        padding: 0 20px;
+        grid-template-columns: auto 1fr auto;
+        overflow: visible;
+    }
+
+    .header-spacer {
+        display: none;
+    }
+
+    .accessibility-controls {
+        margin-left: auto;
+        gap: 8px;
+        justify-self: end;
+    }
+
+    .accessibility-button {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+        padding: 6px;
+    }
+
+    .accessibility-menu {
+        position: relative;
+        overflow: visible;
+    }
+
+    .accessibility-menu-content {
+        min-width: 220px;
+        max-width: 260px;
+        width: 260px;
+        white-space: normal;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .accessibility-menu-content {
+        min-width: 200px;
+        max-width: 240px;
+        width: 240px;
+        padding: 12px;
+    }
+    
+    .accessibility-controls {
+        margin-right: 10px;
+    }
+
+    .container {
+        padding: 0 20px;
+    }
+
+    .breadcrumbs-container {
+        padding: 0 20px;
+    }
+}
