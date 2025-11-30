@@ -127,10 +127,21 @@ class Chatbot {
         const messageDiv = document.createElement('div');
         messageDiv.className = `chatbot-message chatbot-message-${sender}`;
 
-        const avatar = sender === 'bot' ? '🤖' : '👤';
+        let avatarHTML;
+        if (sender === 'bot') {
+            avatarHTML = '<div class="chatbot-avatar">🤖</div>';
+        } else {
+            // Usar foto do perfil do usuário se disponível
+            const userAvatar = this.getUserAvatar();
+            if (userAvatar) {
+                avatarHTML = `<div class="chatbot-avatar chatbot-avatar-image"><img src="${userAvatar}" alt="Você" onerror="this.parentElement.innerHTML='👤'"></div>`;
+            } else {
+                avatarHTML = '<div class="chatbot-avatar">👤</div>';
+            }
+        }
         
         messageDiv.innerHTML = `
-            <div class="chatbot-avatar">${avatar}</div>
+            ${avatarHTML}
             <div class="chatbot-text">${this.escapeHtml(text)}</div>
         `;
 
@@ -139,6 +150,21 @@ class Chatbot {
 
         // Salvar mensagem
         this.messages.push({ text, sender, timestamp: Date.now() });
+    }
+
+    getUserAvatar() {
+        // Tentar obter avatar do perfil do usuário
+        if (window.currentUserProfile && window.currentUserProfile.avatar_url) {
+            return window.currentUserProfile.avatar_url;
+        }
+        
+        // Se não tiver avatar, gerar um baseado no nome
+        if (window.currentUserProfile) {
+            const displayName = window.currentUserProfile.full_name || window.currentUserProfile.email?.split('@')[0] || 'Usuário';
+            return `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=2d5a3d&color=fff&size=128`;
+        }
+        
+        return null;
     }
 
     showTypingIndicator() {
@@ -172,7 +198,7 @@ class Chatbot {
             return 'Olá! Como posso ajudar você hoje? Posso responder sobre nossos serviços, eventos, programas ou agendamentos.';
         }
 
-        if (lowerMessage.includes('serviço') || lowerMessage.includes('servicos')) {
+        if (lowerMessage.includes('serviço') || lowerMessage.includes('servicos') || lowerMessage.includes('serviços') || lowerMessage.includes('fale sobre')) {
             return 'Oferecemos três serviços principais:\n\n1. Análise de Dados - Análise completa de dados de monitoramento\n2. Consulta de Suporte - Suporte técnico especializado\n3. Treinamento de Plataforma - Capacitação na ferramenta ZooMonitor\n\nGostaria de mais informações sobre algum deles?';
         }
 
@@ -207,11 +233,12 @@ class Chatbot {
         // Tentar usar API de chatbot (se configurada)
         try {
             const apiResponse = await this.callChatbotAPI(message);
-            if (apiResponse) {
+            if (apiResponse && apiResponse.trim()) {
+                console.log('Resposta da API:', apiResponse);
                 return apiResponse;
             }
         } catch (error) {
-            console.log('API de chatbot não disponível, usando respostas padrão');
+            console.error('Erro ao chamar API de chatbot:', error);
         }
 
         // Resposta padrão
@@ -219,42 +246,192 @@ class Chatbot {
     }
 
     async callChatbotAPI(message) {
-        // Integração com API de chatbot (OpenAI, Dialogflow, etc.)
-        // Exemplo com OpenAI (requer API key)
+        // Suporta múltiplas APIs de IA gratuitas
+        // Prioridade: Google Gemini (gratuito) > OpenAI > Hugging Face
         
-        const API_KEY = window.CHATBOT_API_KEY; // Configurar no HTML
-        if (!API_KEY) return null;
+        // Função auxiliar para obter variáveis de ambiente
+        const getEnvVar = (key) => {
+            // Tentar window.env primeiro (configurado via script no HTML)
+            if (window.env && window.env[key]) {
+                return window.env[key];
+            }
+            // Tentar variável global direta
+            if (window[key]) {
+                return window[key];
+            }
+            return null;
+        };
+        
+        // 1. Tentar Google Gemini (GRATUITO - Recomendado)
+        const geminiKey = getEnvVar('VITE_GEMINI_API_KEY') || window.GEMINI_API_KEY;
+        console.log('Chave Gemini encontrada:', geminiKey ? 'Sim' : 'Não');
+        if (geminiKey) {
+            try {
+                console.log('Tentando usar Gemini API...');
+                return await this.callGeminiAPI(message, geminiKey);
+            } catch (error) {
+                console.error('Erro no Gemini:', error);
+                // Continuar para tentar outras APIs ou usar fallback
+            }
+        } else {
+            console.log('Chave Gemini não configurada');
+        }
 
-        try {
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        // 2. Tentar OpenAI (pago, mas pode ter créditos gratuitos)
+        const openaiKey = getEnvVar('VITE_OPENAI_API_KEY') || window.CHATBOT_API_KEY;
+        if (openaiKey) {
+            try {
+                return await this.callOpenAIAPI(message, openaiKey);
+            } catch (error) {
+                console.log('Erro no OpenAI, tentando outras APIs...', error);
+            }
+        }
+
+        // 3. Tentar Hugging Face (gratuito, mas mais lento)
+        const hfKey = getEnvVar('VITE_HUGGINGFACE_API_KEY') || window.HUGGINGFACE_API_KEY;
+        if (hfKey) {
+            try {
+                return await this.callHuggingFaceAPI(message, hfKey);
+            } catch (error) {
+                console.log('Erro no Hugging Face', error);
+            }
+        }
+
+        // Nenhuma API configurada ou todas falharam
+        console.log('Nenhuma API de IA configurada. Usando respostas pré-definidas.');
+        return null;
+    }
+
+    async callGeminiAPI(message, apiKey) {
+        // Google Gemini - GRATUITO e de alta qualidade
+        const systemPrompt = `Você é o assistente virtual do ZooMonitor, uma plataforma especializada em monitoramento inteligente de vida selvagem.
+
+Sua função é:
+- Responder perguntas sobre nossos serviços (Análise de Dados, Consulta de Suporte, Treinamento)
+- Informar sobre eventos e programas educacionais
+- Ajudar com agendamentos
+- Orientar sobre grupos e comunidades
+- Ser prestativo, amigável e profissional
+
+Sempre responda em português brasileiro de forma clara e objetiva. Seja conciso mas completo.`;
+
+        // Construir histórico de conversa
+        const conversationHistory = this.messages
+            .slice(-4) // Últimas 4 mensagens para contexto
+            .map(msg => ({
+                role: msg.sender === 'user' ? 'user' : 'model',
+                parts: [{ text: msg.text }]
+            }));
+
+        console.log('Chamando API Gemini...');
+        
+        const response = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`,
+            {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${API_KEY}`
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    model: 'gpt-3.5-turbo',
-                    messages: [
-                        {
-                            role: 'system',
-                            content: 'Você é um assistente virtual do ZooMonitor, uma plataforma de monitoramento inteligente para vida selvagem. Seja prestativo, amigável e forneça informações sobre serviços, eventos, programas e agendamentos.'
-                        },
+                    contents: [
                         {
                             role: 'user',
-                            content: message
+                            parts: [{ text: `${systemPrompt}\n\nUsuário: ${message}` }]
                         }
                     ],
-                    max_tokens: 150,
-                    temperature: 0.7
+                    generationConfig: {
+                        temperature: 0.7,
+                        maxOutputTokens: 200
+                    }
                 })
-            });
+            }
+        );
 
-            const data = await response.json();
-            return data.choices[0].message.content;
-        } catch (error) {
-            console.error('Erro ao chamar API de chatbot:', error);
-            return null;
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            console.error('Erro na API Gemini:', errorData);
+            throw new Error(`Gemini API erro: ${response.status} - ${JSON.stringify(errorData)}`);
         }
+
+        const data = await response.json();
+        console.log('Resposta da Gemini:', data);
+        
+        if (!data.candidates || !data.candidates[0] || !data.candidates[0].content) {
+            console.error('Formato de resposta inesperado:', data);
+            throw new Error('Resposta da Gemini em formato inesperado');
+        }
+
+        const responseText = data.candidates[0].content.parts[0].text.trim();
+        console.log('Texto extraído:', responseText);
+        return responseText;
+    }
+
+    async callOpenAIAPI(message, apiKey) {
+        // OpenAI (pago, mas pode ter créditos gratuitos)
+        const conversationHistory = this.messages
+            .slice(-6)
+            .map(msg => ({
+                role: msg.sender === 'user' ? 'user' : 'assistant',
+                content: msg.text
+            }));
+
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+                model: 'gpt-3.5-turbo',
+                messages: [
+                    {
+                        role: 'system',
+                        content: `Você é o assistente virtual do ZooMonitor, uma plataforma especializada em monitoramento inteligente de vida selvagem. Responda em português brasileiro de forma clara e objetiva.`
+                    },
+                    ...conversationHistory,
+                    {
+                        role: 'user',
+                        content: message
+                    }
+                ],
+                max_tokens: 200,
+                temperature: 0.7
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`OpenAI API erro: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data.choices[0].message.content.trim();
+    }
+
+    async callHuggingFaceAPI(message, apiKey) {
+        // Hugging Face - Gratuito mas mais lento
+        const response = await fetch(
+            'https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium',
+            {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${apiKey}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    inputs: message,
+                    parameters: {
+                        max_length: 150
+                    }
+                })
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(`Hugging Face API erro: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data[0]?.generated_text || data.generated_text || null;
     }
 
     escapeHtml(text) {

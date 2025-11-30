@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZooMonitor - Monitoramento Inteligente para a Vida Selvagem</title>
     <link rel="stylesheet" href="css/global/styles.css">
+    <link rel="stylesheet" href="css/global/notifications.css">
     <link rel="stylesheet" href="css/global/chatbot.css">
     <link rel="stylesheet" href="css/pages/index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -348,8 +349,34 @@
         </div>
     </footer>
 
+    <script src="js/notifications.js"></script>
     <script src="js/accessibility.js"></script>
     <script src="js/script.js"></script>
+    
+    <!-- Configurar variáveis de ambiente para o chatbot -->
+    <script>
+        // Carregar variáveis do .env (para desenvolvimento local)
+        // Em produção, essas variáveis devem vir do servidor
+        window.env = window.env || {};
+        
+        // Gemini API Key (do arquivo .env)
+        window.env.VITE_GEMINI_API_KEY = 'AIzaSyBK2yJwTY01By1hiDvsWdVw_jF2qDSkb8U';
+        // Alternativa: também pode usar diretamente
+        window.GEMINI_API_KEY = 'AIzaSyBK2yJwTY01By1hiDvsWdVw_jF2qDSkb8U';
+    </script>
+    
+    <!-- Supabase Client (se não estiver em membros.html) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script>
+        // Configurar Supabase
+        const SUPABASE_URL = 'https://gsprpjvuukuxaozykhwr.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdzcHJwanZ1dWt1eGFvenlraHdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ1MDcyODMsImV4cCI6MjA4MDA4MzI4M30.P0EFPXB94kWk2amUkdNiWbZ6xZJUySqkjek3nHkqkPw';
+        window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    </script>
+    
+    <!-- Gerenciamento de perfil do usuário -->
+    <script type="module" src="js/user-profile.js"></script>
+    
     <script src="js/chatbot.js"></script>
 </body>
 </html>

@@ -276,6 +276,18 @@
         </div>
     </footer>
 
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script>
+        // Configurar Supabase
+        const SUPABASE_URL = 'https://gsprpjvuukuxaozykhwr.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdzcHJwanZ1dWt1eGFvenlraHdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ1MDcyODMsImV4cCI6MjA4MDA4MzI4M30.P0EFPXB94kWk2amUkdNiWbZ6xZJUySqkjek3nHkqkPw';
+        window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    </script>
+    
+    <!-- Gerenciamento de perfil do usuário -->
+    <script type="module" src="../js/user-profile.js"></script>
+    
     <script src="../js/accessibility.js"></script>
     <script src="../js/script.js"></script>
     <script src="../js/chatbot.js"></script>

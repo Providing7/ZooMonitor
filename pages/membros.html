@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Membros - ZooMonitor</title>
     <link rel="stylesheet" href="../css/global/styles.css">
+    <link rel="stylesheet" href="../css/global/notifications.css">
     <link rel="stylesheet" href="../css/pages/membros.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -95,28 +96,25 @@
     <!-- Register Modal -->
     <div id="registerModal" class="register-modal">
         <div class="register-modal-content">
-            <button class="register-modal-close" onclick="closeRegisterModal()">×</button>
-            <h2 class="register-modal-title">Registre-se</h2>
-            <p class="register-modal-login-link">Já é membro? <a href="#" onclick="closeRegisterModal(); return false;" class="register-login-link">Login</a></p>
+            <button class="register-modal-close" onclick="closeRegisterModal()" aria-label="Fechar">×</button>
             
-            <div class="register-buttons">
-                <button class="register-button register-button-google">
-                    <span class="register-button-icon">G</span>
-                    <span>Registrar-se com Google</span>
-                </button>
-                <button class="register-button register-button-facebook">
-                    <span class="register-button-icon">f</span>
-                    <span>Registrar-se com Facebook</span>
-                </button>
-                <div class="register-divider">
-                    <span>ou</span>
-                </div>
-                <button class="register-button register-button-email">
-                    <span>Registrar-se com email</span>
-                </button>
+            <div class="register-modal-header">
+                <h2 class="register-modal-title">Bem-vindo ao ZooMonitor</h2>
+                <p class="register-modal-subtitle">Crie sua conta para começar</p>
             </div>
+            
+            <div class="register-modal-body">
+                <p class="register-modal-login-link">Já tem uma conta? <a href="#" onclick="event.preventDefault(); showLoginForm(window.supabaseClient); return false;" class="register-login-link">Fazer login</a></p>
+                
+                <div class="register-buttons">
+                    <button class="register-button register-button-email">
+                        <span>📧</span>
+                        <span>Continuar com email</span>
+                    </button>
+                </div>
 
-            <p class="register-disclaimer">Seu perfil será automaticamente definido como público ao se registrar. Você pode alterar isso depois nas configurações do seu perfil.</p>
+                <p class="register-disclaimer">Ao continuar, você concorda com nossos Termos de Uso e Política de Privacidade. Seu perfil será público por padrão.</p>
+            </div>
         </div>
     </div>
 
@@ -149,20 +147,22 @@
     
     <!-- Configuração do Supabase -->
     <script>
-        // Configurar Supabase (substitua pelos seus valores)
-        const SUPABASE_URL = 'YOUR_SUPABASE_URL'; // Substitua pela sua URL
-        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // Substitua pela sua chave
+        // Configurar Supabase
+        const SUPABASE_URL = 'https://gsprpjvuukuxaozykhwr.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdzcHJwanZ1dWt1eGFvenlraHdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ1MDcyODMsImV4cCI6MjA4MDA4MzI4M30.P0EFPXB94kWk2amUkdNiWbZ6xZJUySqkjek3nHkqkPw';
         
         // Criar cliente Supabase
-        if (SUPABASE_URL !== 'YOUR_SUPABASE_URL' && SUPABASE_ANON_KEY !== 'YOUR_SUPABASE_ANON_KEY') {
-            window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        } else {
-            console.warn('⚠️ Configure SUPABASE_URL e SUPABASE_ANON_KEY no arquivo membros.html');
-        }
+        window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     </script>
+    
+    <!-- Sistema de Notificações -->
+    <script src="../js/notifications.js"></script>
     
     <!-- Integração de Autenticação -->
     <script src="../js/auth-integration.js"></script>
+    
+    <!-- Gerenciamento de perfil do usuário -->
+    <script type="module" src="../js/user-profile.js"></script>
     
     <!-- Scripts existentes -->
     <script src="../js/accessibility.js"></script>
