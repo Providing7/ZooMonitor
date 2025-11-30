@@ -14,16 +14,21 @@ function initAccessibility() {
         updateThemeIcon(currentTheme);
     }
 
-    // Toggle de tema
+    // Toggle de tema (suporte a click e touch)
     if (themeToggle) {
-        themeToggle.addEventListener('click', () => {
+        const handleThemeToggle = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
             updateThemeIcon(newTheme);
-        });
+        };
+        
+        themeToggle.addEventListener('click', handleThemeToggle);
+        themeToggle.addEventListener('touchend', handleThemeToggle);
     }
 
     function updateThemeIcon(theme) {
@@ -51,14 +56,19 @@ function initAccessibility() {
     document.documentElement.setAttribute('data-font-size', currentFontSize);
     updateActiveFontButton(currentFontSize);
 
-    // Controle de tamanho de fonte
+    // Controle de tamanho de fonte (suporte a click e touch)
     fontSizeButtons.forEach(button => {
-        button.addEventListener('click', () => {
+        const handleFontSize = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             const size = button.getAttribute('data-size');
             document.documentElement.setAttribute('data-font-size', size);
             localStorage.setItem('fontSize', size);
             updateActiveFontButton(size);
-        });
+        };
+        
+        button.addEventListener('click', handleFontSize);
+        button.addEventListener('touchend', handleFontSize);
     });
 
     function updateActiveFontButton(size) {
@@ -85,8 +95,9 @@ function initAccessibilityMenu() {
     
     let isMenuOpen = false;
     
-    // Abrir/fechar menu ao clicar no botão
-    accessibilityButton.addEventListener('click', function(e) {
+    // Abrir/fechar menu ao clicar/toque no botão
+    const handleMenuToggle = function(e) {
+        e.preventDefault();
         e.stopPropagation();
         
         isMenuOpen = !isMenuOpen;
@@ -159,17 +170,26 @@ function initAccessibilityMenu() {
             menuContent.style.transform = '';
             menuContent.style.maxWidth = '';
         }
+    };
+    
+    // Adicionar eventos para click e touch
+    accessibilityButton.addEventListener('click', handleMenuToggle);
+    accessibilityButton.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        handleMenuToggle(e);
     });
     
-    // Prevenir que o clique no menu feche o menu
+    // Prevenir que o clique/toque no menu feche o menu
     if (menuContent) {
-        menuContent.addEventListener('click', function(e) {
+        const preventClose = function(e) {
             e.stopPropagation();
-        });
+        };
+        menuContent.addEventListener('click', preventClose);
+        menuContent.addEventListener('touchend', preventClose);
     }
     
-    // Fechar menu ao clicar fora
-    document.addEventListener('click', function(e) {
+    // Fechar menu ao clicar/toque fora
+    const handleOutsideClick = function(e) {
         if (isMenuOpen && menu && !menu.contains(e.target)) {
             isMenuOpen = false;
             if (menuContent) {
@@ -187,7 +207,10 @@ function initAccessibilityMenu() {
                 accessibilityButton.classList.remove('active');
             }
         }
-    });
+    };
+    
+    document.addEventListener('click', handleOutsideClick);
+    document.addEventListener('touchend', handleOutsideClick);
 }
 
 // Inicializar quando o DOM estiver pronto

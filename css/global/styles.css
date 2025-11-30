@@ -197,7 +197,114 @@ body {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    gap: 15px;
     z-index: 1001;
+}
+
+/* Perfil do usuário no header */
+.user-profile-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-profile-avatar-container {
+    position: relative;
+    cursor: pointer;
+}
+
+.user-profile-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--beige);
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.user-profile-avatar:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 3px rgba(212, 197, 169, 0.3);
+}
+
+.user-profile-menu {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background: var(--bg-primary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 12px;
+    min-width: 200px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1003;
+}
+
+.user-profile-avatar-container:hover .user-profile-menu,
+.user-profile-menu:hover {
+    display: block;
+}
+
+.user-profile-info {
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 10px;
+}
+
+.user-profile-name {
+    color: var(--white);
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.user-profile-email {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 12px;
+}
+
+.user-profile-logout {
+    width: 100%;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    color: var(--white);
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.user-profile-logout:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--beige);
+}
+
+/* Modo claro - perfil do usuário */
+[data-theme="light"] .user-profile-menu {
+    background: var(--bg-secondary);
+    border-color: var(--light-green);
+}
+
+[data-theme="light"] .user-profile-name {
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .user-profile-email {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="light"] .user-profile-logout {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: var(--light-green);
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .user-profile-logout:hover {
+    background: rgba(0, 0, 0, 0.1);
 }
 
 /* O menu será posicionado dinamicamente via JavaScript */
@@ -259,6 +366,9 @@ body {
     width: 40px;
     height: 40px;
     backdrop-filter: blur(10px);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
 }
 
 .accessibility-button:hover {
@@ -404,6 +514,10 @@ body {
     transition: all 0.3s;
     font-size: 12px;
     text-align: center;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    min-height: 44px; /* Tamanho mínimo recomendado para touch */
 }
 
 .font-size-btn:hover {
@@ -427,6 +541,10 @@ body {
     transition: all 0.3s;
     width: 100%;
     margin-top: 5px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    min-height: 44px; /* Tamanho mínimo recomendado para touch */
 }
 
 .theme-toggle:hover {
@@ -629,6 +747,16 @@ body {
         width: 260px;
         white-space: normal;
         padding: 15px;
+        z-index: 10000 !important; /* Garantir que apareça acima de tudo no mobile */
+    }
+    
+    .font-size-btn {
+        min-height: 48px; /* Aumentar área de toque no mobile */
+        font-size: 14px;
+    }
+    
+    .theme-toggle {
+        min-height: 48px; /* Aumentar área de toque no mobile */
     }
 }
 
@@ -638,10 +766,22 @@ body {
         max-width: 240px;
         width: 240px;
         padding: 12px;
+        z-index: 10000 !important; /* Garantir que apareça acima de tudo no mobile */
     }
     
     .accessibility-controls {
         margin-right: 10px;
+    }
+    
+    .font-size-btn {
+        min-height: 48px; /* Aumentar área de toque no mobile */
+        font-size: 14px;
+        padding: 10px 8px;
+    }
+    
+    .theme-toggle {
+        min-height: 48px; /* Aumentar área de toque no mobile */
+        padding: 14px 16px;
     }
 
     .container {
