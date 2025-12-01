@@ -1,0 +1,197 @@
+/* ========================================
+   POPUP DE NEWSLETTER
+   ======================================== */
+
+.newsletter-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+.newsletter-popup-overlay.show {
+    display: flex;
+}
+
+.newsletter-popup {
+    background: linear-gradient(135deg, rgba(26, 71, 42, 0.98) 0%, rgba(45, 90, 61, 0.98) 100%);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 450px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(212, 197, 169, 0.3);
+    position: relative;
+    animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+}
+
+.newsletter-popup-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--white);
+    font-size: 24px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.newsletter-popup-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+.newsletter-popup-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+    animation: scaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.newsletter-popup-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 12px;
+    line-height: 1.2;
+}
+
+.newsletter-popup-message {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.newsletter-popup-button {
+    background: linear-gradient(135deg, var(--beige) 0%, #C4B596 100%);
+    color: var(--dark-green);
+    border: none;
+    border-radius: 50px;
+    padding: 14px 40px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(212, 197, 169, 0.3);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-height: 48px;
+    user-select: none;
+}
+
+.newsletter-popup-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 197, 169, 0.4);
+}
+
+.newsletter-popup-button:active {
+    transform: translateY(0);
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes scaleIn {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Responsivo */
+@media (max-width: 480px) {
+    .newsletter-popup {
+        padding: 30px 20px;
+        max-width: 100%;
+        border-radius: 16px;
+        margin: 20px;
+    }
+
+    .newsletter-popup-title {
+        font-size: 24px;
+    }
+
+    .newsletter-popup-message {
+        font-size: 15px;
+    }
+
+    .newsletter-popup-icon {
+        font-size: 56px;
+    }
+
+    .newsletter-popup-button {
+        width: 100%;
+        padding: 12px 30px;
+    }
+}
+
+/* Modo claro */
+[data-theme="light"] .newsletter-popup {
+    background: linear-gradient(135deg, rgba(245, 245, 220, 0.98) 0%, rgba(232, 232, 208, 0.98) 100%);
+    border-color: var(--light-green);
+}
+
+[data-theme="light"] .newsletter-popup-title {
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .newsletter-popup-message {
+    color: var(--text-secondary);
+}
+
+[data-theme="light"] .newsletter-popup-close {
+    color: var(--text-primary);
+    background: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .newsletter-popup-close:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+

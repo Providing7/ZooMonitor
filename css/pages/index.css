@@ -37,6 +37,16 @@
     z-index: 2;
     position: relative;
     animation: fadeInUp 1s ease-out;
+    padding: 0 20px;
+}
+
+@media (max-width: 768px) {
+    .hero-content {
+        margin-left: 0;
+        text-align: center;
+        max-width: 100%;
+        padding: 0 20px;
+    }
 }
 
 @keyframes fadeInUp {
@@ -84,6 +94,21 @@
     transition: all 0.3s;
     position: relative;
     overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .hero-button {
+        padding: 12px 35px;
+        font-size: 15px;
+        width: 100%;
+        max-width: 280px;
+    }
 }
 
 .hero-button::before {
@@ -1229,12 +1254,21 @@
 }
 
 @media (max-width: 768px) {
+    .hero {
+        height: 100vh;
+        min-height: 600px;
+    }
+
     .hero-title {
-        font-size: 40px;
+        font-size: clamp(28px, 8vw, 40px);
+        margin-bottom: 16px;
+        line-height: 1.2;
     }
 
     .hero-subtitle {
-        font-size: 20px;
+        font-size: clamp(16px, 4vw, 20px);
+        margin-bottom: 24px;
+        line-height: 1.4;
     }
 
     .section-title,
@@ -1349,6 +1383,36 @@
 }
 
 @media (max-width: 480px) {
+    .hero {
+        height: 100vh;
+        min-height: 500px;
+    }
+
+    .hero-content {
+        padding: 0 15px;
+    }
+
+    .hero-title {
+        font-size: clamp(24px, 7vw, 32px);
+        margin-bottom: 12px;
+    }
+
+    .hero-subtitle {
+        font-size: clamp(14px, 3.5vw, 18px);
+        margin-bottom: 20px;
+    }
+
+    .container {
+        padding: 0 15px;
+    }
+
+    .section-title,
+    .servicos-title,
+    .descobertas-title,
+    .equipe-title {
+        font-size: clamp(24px, 8vw, 32px);
+    }
+
     .footer {
         padding: 60px 0 20px;
     }

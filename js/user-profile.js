@@ -17,6 +17,9 @@ export async function updateHeaderWithProfile() {
             return;
         }
 
+        // Garantir que o perfil existe antes de buscar
+        await ensureUserProfileExists(session.user);
+
         // Buscar perfil do usuário
         const { data: profile, error } = await window.supabaseClient
             .from('profiles')
@@ -28,6 +31,17 @@ export async function updateHeaderWithProfile() {
             console.error('Erro ao buscar perfil:', error);
             // Se não tiver perfil, criar um básico
             await createBasicProfile(session.user);
+            // Tentar buscar novamente
+            const { data: newProfile } = await window.supabaseClient
+                .from('profiles')
+                .select('full_name, avatar_url, email')
+                .eq('id', session.user.id)
+                .single();
+            
+            if (newProfile) {
+                addProfileToHeader(newProfile, session.user);
+                window.currentUserProfile = newProfile;
+            }
             return;
         }
 
@@ -42,25 +56,80 @@ export async function updateHeaderWithProfile() {
 }
 
 /**
- * Criar perfil básico se não existir
+ * Garantir que o perfil do usuário existe
  */
-async function createBasicProfile(user) {
+async function ensureUserProfileExists(user) {
+    if (!window.supabaseClient || !user || !user.id) return;
+
     try {
+        // Verificar se o perfil já existe
+        const { data: existingProfile } = await window.supabaseClient
+            .from('profiles')
+            .select('id')
+            .eq('id', user.id)
+            .single();
+
+        if (existingProfile) {
+            // Perfil já existe
+            return;
+        }
+
+        // Criar perfil se não existir
+        const fullName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Usuário';
+        
         const { error } = await window.supabaseClient
             .from('profiles')
             .insert({
                 id: user.id,
                 email: user.email,
-                full_name: user.email?.split('@')[0] || 'Usuário',
-                avatar_url: null
+                full_name: fullName,
+                avatar_url: null,
+                role: 'member',
+                is_public: true
             });
 
-        if (error && !error.message.includes('duplicate')) {
-            console.error('Erro ao criar perfil:', error);
+        if (error) {
+            // Se o erro for de duplicata, tudo bem (pode ter sido criado pelo trigger)
+            if (!error.message.includes('duplicate') && !error.message.includes('already exists')) {
+                console.error('Erro ao criar perfil:', error);
+            }
         } else {
-            // Tentar novamente buscar o perfil
-            await updateHeaderWithProfile();
+            console.log('Perfil criado com sucesso para:', user.email);
         }
+    } catch (error) {
+        console.error('Erro ao garantir perfil:', error);
+    }
+}
+
+/**
+ * Criar perfil básico se não existir
+ */
+async function createBasicProfile(user) {
+    try {
+        const fullName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Usuário';
+        
+        const { error } = await window.supabaseClient
+            .from('profiles')
+            .insert({
+                id: user.id,
+                email: user.email,
+                full_name: fullName,
+                avatar_url: null,
+                role: 'member',
+                is_public: true
+            });
+
+        if (error) {
+            // Se o erro for de duplicata, tudo bem (pode ter sido criado pelo trigger)
+            if (!error.message.includes('duplicate') && !error.message.includes('already exists')) {
+                console.error('Erro ao criar perfil:', error);
+            }
+        } else {
+            console.log('Perfil criado com sucesso para:', user.email);
+        }
+        
+        // Tentar novamente buscar o perfil
+        await updateHeaderWithProfile();
     } catch (error) {
         console.error('Erro ao criar perfil:', error);
     }
@@ -72,6 +141,11 @@ async function createBasicProfile(user) {
 function addProfileToHeader(profile, user) {
     // Remover foto anterior se existir
     removeProfileFromHeader();
+    
+    // Remover botão de login se existir
+    if (window.removeLoginButtonFromHeader) {
+        window.removeLoginButtonFromHeader();
+    }
 
     const headerRightControls = document.querySelector('.header-right-controls');
     if (!headerRightControls) return;
@@ -115,6 +189,20 @@ function removeProfileFromHeader() {
         existingProfile.remove();
     }
     window.currentUserProfile = null;
+    
+    // Se não houver perfil e não houver botão de login, adicionar botão de login
+    if (window.addLoginButtonToHeader && !document.getElementById('header-login-button')) {
+        // Verificar se realmente não está logado antes de adicionar
+        if (window.supabaseClient) {
+            window.supabaseClient.auth.getUser().then(({ data: { user } }) => {
+                if (!user) {
+                    window.addLoginButtonToHeader();
+                }
+            });
+        } else {
+            window.addLoginButtonToHeader();
+        }
+    }
 }
 
 /**
@@ -146,18 +234,82 @@ export function getUserDisplayName() {
     return window.currentUserProfile.full_name || window.currentUserProfile.email?.split('@')[0] || 'Usuário';
 }
 
+/**
+ * Fazer logout do usuário
+ */
+async function handleLogout() {
+    if (!window.supabaseClient) {
+        console.error('Supabase não está disponível');
+        return;
+    }
+
+    try {
+        const { error } = await window.supabaseClient.auth.signOut();
+        
+        if (error) {
+            console.error('Erro ao fazer logout:', error);
+            if (window.notifications) {
+                window.notifications.error('Erro ao fazer logout.');
+            }
+            return;
+        }
+
+        // Remover perfil do header
+        removeProfileFromHeader();
+        
+        // Adicionar botão de login
+        if (window.addLoginButtonToHeader) {
+            window.addLoginButtonToHeader();
+        }
+
+        if (window.notifications) {
+            window.notifications.success('Logout realizado com sucesso!');
+        }
+
+        // Recarregar página após um breve delay
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
+    } catch (error) {
+        console.error('Erro ao fazer logout:', error);
+        if (window.notifications) {
+            window.notifications.error('Erro ao fazer logout.');
+        }
+    }
+}
+
 // Exportar funções para uso global
 window.updateHeaderWithProfile = updateHeaderWithProfile;
 window.removeProfileFromHeader = removeProfileFromHeader;
+window.handleLogout = handleLogout;
+window.ensureUserProfileExists = ensureUserProfileExists;
 
 // Inicializar quando o DOM estiver pronto
+function initUserProfile() {
+    // Aguardar Supabase estar disponível
+    const checkSupabase = setInterval(() => {
+        if (window.supabaseClient) {
+            clearInterval(checkSupabase);
+            // Verificar sessão imediatamente
+            updateHeaderWithProfile();
+        }
+    }, 100);
+    
+    // Timeout de segurança
+    setTimeout(() => {
+        clearInterval(checkSupabase);
+        if (window.supabaseClient) {
+            updateHeaderWithProfile();
+        }
+    }, 2000);
+}
+
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-        // Aguardar um pouco para garantir que Supabase está carregado
-        setTimeout(updateHeaderWithProfile, 500);
+        initUserProfile();
     });
 } else {
-    setTimeout(updateHeaderWithProfile, 500);
+    initUserProfile();
 }
 
 // Listener para mudanças de autenticação
@@ -166,9 +318,13 @@ if (typeof window !== 'undefined') {
     const checkSupabase = setInterval(() => {
         if (window.supabaseClient) {
             clearInterval(checkSupabase);
-            window.supabaseClient.auth.onAuthStateChange((event, session) => {
-                if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
-                    updateHeaderWithProfile();
+            window.supabaseClient.auth.onAuthStateChange(async (event, session) => {
+                if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') {
+                    // Garantir que o perfil existe antes de atualizar o header
+                    if (session && session.user) {
+                        await ensureUserProfileExists(session.user);
+                    }
+                    await updateHeaderWithProfile();
                 } else if (event === 'SIGNED_OUT') {
                     removeProfileFromHeader();
                 }

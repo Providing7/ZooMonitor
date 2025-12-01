@@ -3,10 +3,17 @@
 
 .eventos-page {
     background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-    padding: 120px 0 80px;
+    padding: 150px 0 80px;
     min-height: 100vh;
     position: relative;
     overflow: hidden;
+    margin-top: 0;
+}
+
+@media (max-width: 768px) {
+    .eventos-page {
+        padding: 110px 0 60px;
+    }
 }
 
 .eventos-page::before {
@@ -30,6 +37,64 @@
 
 .eventos-page .container {
     max-width: 1200px;
+}
+
+/* Header da página de eventos */
+.eventos-header {
+    text-align: center;
+    margin-bottom: 60px;
+    padding-top: 20px;
+}
+
+.eventos-page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--white);
+    margin: 0 0 20px 0;
+    line-height: 1.2;
+}
+
+.eventos-page-divider {
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--beige), transparent);
+    margin: 0 auto 30px;
+}
+
+.eventos-social {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.eventos-social-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all 0.3s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-width: 50px;
+    min-height: 50px;
+}
+
+.eventos-social-icon:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--beige);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(212, 197, 169, 0.3);
 }
 
 .eventos-cards {
@@ -158,9 +223,47 @@
 }
 
 @media (max-width: 768px) {
+    .eventos-header {
+        margin-bottom: 40px;
+        padding-top: 10px;
+    }
+    
+    .eventos-page-title {
+        font-size: 36px;
+    }
+    
+    .eventos-page-divider {
+        width: 60px;
+        margin-bottom: 25px;
+    }
+    
+    .eventos-social {
+        gap: 15px;
+    }
+    
+    .eventos-social-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 16px;
+        min-width: 44px;
+        min-height: 44px;
+    }
+    
     .eventos-cards {
         grid-template-columns: 1fr;
         gap: 35px;
+    }
+    
+    .evento-card-content {
+        padding: 25px;
+    }
+    
+    .evento-card-title {
+        font-size: 22px;
+    }
+    
+    .evento-card-date {
+        font-size: 15px;
     }
 }
 
@@ -184,5 +287,24 @@
 
 [data-theme="light"] .evento-card-date {
     color: var(--light-green);
+}
+
+[data-theme="light"] .eventos-page-title {
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .eventos-page-divider {
+    background: linear-gradient(90deg, transparent, var(--light-green), transparent);
+}
+
+[data-theme="light"] .eventos-social-icon {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: var(--light-green);
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .eventos-social-icon:hover {
+    background: rgba(0, 0, 0, 0.1);
+    border-color: var(--dark-green);
 }
 

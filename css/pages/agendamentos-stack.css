@@ -1,0 +1,564 @@
+/* ========================================
+   SISTEMA DE AGENDAMENTOS EM PILHA (STACK)
+   ======================================== */
+
+.agendamentos-stack-view {
+    width: 100%;
+    animation: fadeIn 0.3s ease;
+}
+
+.agendamentos-stack-detail {
+    display: none;
+    position: relative;
+    padding-top: 20px;
+    padding-bottom: 60px;
+}
+
+/* Botão de voltar */
+.agendamentos-back {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--white);
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 30px;
+    transition: all 0.3s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-height: 44px;
+    user-select: none;
+}
+
+.agendamentos-back:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--beige);
+    transform: translateX(-3px);
+}
+
+.agendamentos-back:active {
+    transform: translateX(0);
+}
+
+.agendamentos-back span {
+    font-size: 20px;
+    line-height: 1;
+}
+
+/* Conteúdo de agendamentos */
+.agendamentos-content {
+    width: 100%;
+}
+
+.agendamentos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.agendamentos-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--white);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.agendamentos-new-button {
+    background: linear-gradient(135deg, var(--beige) 0%, #C4B596 100%);
+    border: none;
+    color: var(--dark-green);
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s;
+    box-shadow: 0 3px 10px rgba(212, 197, 169, 0.2);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-height: 44px;
+}
+
+.agendamentos-new-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(212, 197, 169, 0.3);
+}
+
+/* Lista de agendamentos */
+.agendamentos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.agendamentos-empty {
+    text-align: center;
+    padding: 60px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.agendamentos-empty-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--white);
+    margin: 0 0 10px 0;
+}
+
+.agendamentos-empty-subtext {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+}
+
+/* Item de agendamento */
+.agendamento-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 25px;
+    transition: all 0.3s;
+}
+
+.agendamento-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--beige);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.agendamento-item-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.agendamento-item-info {
+    flex: 1;
+    min-width: 250px;
+}
+
+.agendamento-item-name {
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--white);
+    margin: 0 0 10px 0;
+}
+
+.agendamento-item-date {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--beige);
+    margin: 0 0 10px 0;
+}
+
+.agendamento-item-notes {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 10px 0 0 0;
+    line-height: 1.6;
+}
+
+.agendamento-item-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.agendamento-item-status {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--white);
+    padding: 6px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.agendamento-item-price {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--beige);
+    margin: 0;
+}
+
+.agendamento-item-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.agendamento-item-cancel,
+.agendamento-item-delete {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--white);
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-height: 36px;
+}
+
+.agendamento-item-cancel:hover {
+    background: rgba(255, 193, 7, 0.2);
+    border-color: #FFC107;
+    color: #FFC107;
+}
+
+.agendamento-item-delete:hover {
+    background: rgba(220, 53, 69, 0.2);
+    border-color: #DC3545;
+    color: #DC3545;
+}
+
+/* Modal de Novo Agendamento */
+.agendamento-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.agendamento-modal {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    border-radius: 12px;
+    padding: 40px;
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.agendamento-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    color: var(--white);
+    font-size: 28px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.agendamento-modal-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(90deg);
+}
+
+.agendamento-modal-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--white);
+    margin: 0 0 30px 0;
+}
+
+.agendamento-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.agendamento-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.agendamento-form-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--white);
+}
+
+.agendamento-form-input,
+.agendamento-form-textarea {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    transition: all 0.3s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.agendamento-form-input:focus,
+.agendamento-form-textarea:focus {
+    outline: none;
+    border-color: var(--beige);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.agendamento-form-input:read-only {
+    background: rgba(255, 255, 255, 0.05);
+    cursor: not-allowed;
+}
+
+.agendamento-form-textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.agendamento-form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.agendamento-form-cancel,
+.agendamento-form-submit {
+    flex: 1;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-height: 44px;
+}
+
+.agendamento-form-cancel {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.agendamento-form-cancel:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.agendamento-form-submit {
+    background: linear-gradient(135deg, var(--beige) 0%, #C4B596 100%);
+    color: var(--dark-green);
+    box-shadow: 0 3px 10px rgba(212, 197, 169, 0.2);
+}
+
+.agendamento-form-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(212, 197, 169, 0.3);
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .agendamentos-title {
+        font-size: 36px;
+    }
+
+    .agendamentos-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .agendamentos-new-button {
+        width: 100%;
+    }
+
+    .agendamento-item-content {
+        flex-direction: column;
+    }
+
+    .agendamento-item-meta {
+        align-items: flex-start;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .agendamento-item-actions {
+        width: 100%;
+    }
+
+    .agendamento-item-cancel,
+    .agendamento-item-delete {
+        flex: 1;
+    }
+
+    .agendamento-modal {
+        padding: 30px 20px;
+        max-height: 95vh;
+    }
+
+    .agendamento-modal-title {
+        font-size: 24px;
+    }
+
+    .agendamento-form-actions {
+        flex-direction: column;
+    }
+
+    .agendamento-form-cancel,
+    .agendamento-form-submit {
+        width: 100%;
+    }
+}
+
+/* Modo claro */
+[data-theme="light"] .agendamentos-back {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: var(--light-green);
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .agendamentos-back:hover {
+    background: rgba(0, 0, 0, 0.1);
+    border-color: var(--dark-green);
+}
+
+[data-theme="light"] .agendamentos-title {
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .agendamentos-empty {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: var(--light-green);
+}
+
+[data-theme="light"] .agendamentos-empty-text {
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .agendamentos-empty-subtext {
+    color: var(--text-secondary);
+}
+
+[data-theme="light"] .agendamento-item {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: var(--light-green);
+}
+
+[data-theme="light"] .agendamento-item:hover {
+    background: rgba(0, 0, 0, 0.1);
+    border-color: var(--dark-green);
+}
+
+[data-theme="light"] .agendamento-item-name {
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .agendamento-item-date {
+    color: var(--light-green);
+}
+
+[data-theme="light"] .agendamento-item-notes {
+    color: var(--text-secondary);
+}
+
+[data-theme="light"] .agendamento-item-price {
+    color: var(--light-green);
+}
+
+[data-theme="light"] .agendamento-item-cancel,
+[data-theme="light"] .agendamento-item-delete {
+    border-color: var(--light-green);
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .agendamento-modal {
+    background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+    border-color: var(--light-green);
+}
+
+[data-theme="light"] .agendamento-modal-title {
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .agendamento-form-label {
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .agendamento-form-input,
+[data-theme="light"] .agendamento-form-textarea {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: var(--light-green);
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .agendamento-form-input:focus,
+[data-theme="light"] .agendamento-form-textarea:focus {
+    background: rgba(255, 255, 255, 1);
+    border-color: var(--dark-green);
+}
+
+[data-theme="light"] .agendamento-form-cancel {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: var(--light-green);
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .agendamento-form-cancel:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+

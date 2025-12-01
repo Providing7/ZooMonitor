@@ -6,7 +6,10 @@
     <title>ZooMonitor - Monitoramento Inteligente para a Vida Selvagem</title>
     <link rel="stylesheet" href="css/global/styles.css">
     <link rel="stylesheet" href="css/global/notifications.css">
+    <link rel="stylesheet" href="css/global/newsletter-popup.css">
     <link rel="stylesheet" href="css/global/chatbot.css">
+    <link rel="stylesheet" href="css/global/header-login.css">
+    <link rel="stylesheet" href="css/global/auth-error-handler.css">
     <link rel="stylesheet" href="css/pages/index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -55,11 +58,16 @@
             </div>
             <div class="header-right-controls">
                 <div class="nav-dropdown">
-                    <a href="#" class="nav-link nav-dropdown-toggle">☰</a>
-                    <div class="nav-dropdown-menu">
-                        <a href="pages/agendamento-online.html" class="nav-dropdown-link">Agendamento online</a>
-                        <a href="pages/lista-programas.html" class="nav-dropdown-link">Lista de programas</a>
-                        <a href="pages/eventos.html" class="nav-dropdown-link">Eventos</a>
+                    <a href="#" class="nav-link nav-dropdown-toggle" id="mobileMenuToggle">☰</a>
+                    <div class="nav-dropdown-menu" id="mobileMenu">
+                        <a href="#inicio" class="nav-dropdown-link nav-dropdown-link-mobile">Início</a>
+                        <a href="#bem-vindo" class="nav-dropdown-link nav-dropdown-link-mobile">Bem-vindo</a>
+                        <a href="pages/grupos.html" class="nav-dropdown-link nav-dropdown-link-mobile">Grupos</a>
+                        <a href="pages/membros.html" class="nav-dropdown-link nav-dropdown-link-mobile">Membros</a>
+                        <div class="nav-dropdown-divider nav-dropdown-divider-mobile"></div>
+                        <a href="pages/agendamento-online.html" class="nav-dropdown-link nav-dropdown-link-desktop">Agendamento online</a>
+                        <a href="pages/lista-programas.html" class="nav-dropdown-link nav-dropdown-link-desktop">Lista de programas</a>
+                        <a href="pages/eventos.html" class="nav-dropdown-link nav-dropdown-link-desktop">Eventos</a>
                     </div>
                 </div>
             </div>
@@ -349,6 +357,19 @@
         </div>
     </footer>
 
+    <!-- Popup de Newsletter -->
+    <div class="newsletter-popup-overlay" id="newsletterPopup">
+        <div class="newsletter-popup">
+            <button class="newsletter-popup-close" id="newsletterPopupClose" aria-label="Fechar">×</button>
+            <div class="newsletter-popup-icon">✅</div>
+            <h3 class="newsletter-popup-title">Inscrição Confirmada!</h3>
+            <p class="newsletter-popup-message">
+                Obrigado por se inscrever! Você receberá nossas novidades e atualizações em breve no seu email.
+            </p>
+            <button class="newsletter-popup-button" id="newsletterPopupButton">Fechar</button>
+        </div>
+    </div>
+
     <script src="js/notifications.js"></script>
     <script src="js/accessibility.js"></script>
     <script src="js/script.js"></script>
@@ -368,14 +389,26 @@
     <!-- Supabase Client (se não estiver em membros.html) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script>
-        // Configurar Supabase
+        // Configurar Supabase com persistência de sessão
         const SUPABASE_URL = 'https://gsprpjvuukuxaozykhwr.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdzcHJwanZ1dWt1eGFvenlraHdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ1MDcyODMsImV4cCI6MjA4MDA4MzI4M30.P0EFPXB94kWk2amUkdNiWbZ6xZJUySqkjek3nHkqkPw';
-        window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: {
+                persistSession: true,
+                autoRefreshToken: true,
+                detectSessionInUrl: true
+            }
+        });
     </script>
     
     <!-- Gerenciamento de perfil do usuário -->
     <script type="module" src="js/user-profile.js"></script>
+    
+    <!-- Sistema de login no header -->
+    <script src="js/header-login.js"></script>
+    
+    <!-- Tratamento de erros de autenticação -->
+    <script src="js/auth-error-handler.js"></script>
     
     <script src="js/chatbot.js"></script>
 </body>

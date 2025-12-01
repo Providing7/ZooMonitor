@@ -26,6 +26,11 @@ CREATE POLICY "Perfis públicos são visíveis para todos"
     ON public.profiles FOR SELECT
     USING (is_public = true OR auth.uid() = id);
 
+-- Política: Usuários podem inserir seu próprio perfil
+CREATE POLICY "Usuários podem inserir próprio perfil"
+    ON public.profiles FOR INSERT
+    WITH CHECK (auth.uid() = id);
+
 -- Política: Usuários podem atualizar seu próprio perfil
 CREATE POLICY "Usuários podem atualizar próprio perfil"
     ON public.profiles FOR UPDATE
@@ -58,6 +63,16 @@ CREATE POLICY "Usuários podem criar grupos"
     ON public.grupos FOR INSERT
     WITH CHECK (auth.uid() IS NOT NULL);
 
+-- Política: Criador do grupo pode atualizar
+CREATE POLICY "Criador pode atualizar grupo"
+    ON public.grupos FOR UPDATE
+    USING (auth.uid() = created_by);
+
+-- Política: Criador do grupo pode deletar
+CREATE POLICY "Criador pode deletar grupo"
+    ON public.grupos FOR DELETE
+    USING (auth.uid() = created_by);
+
 -- ========================================
 -- 3. TABELA DE MEMBROS DE GRUPOS
 -- ========================================
@@ -82,6 +97,16 @@ CREATE POLICY "Membros podem ver outros membros"
             AND gm.user_id = auth.uid()
         )
     );
+
+-- Política: Usuários podem entrar em grupos
+CREATE POLICY "Usuários podem entrar em grupos"
+    ON public.grupo_members FOR INSERT
+    WITH CHECK (auth.uid() = user_id);
+
+-- Política: Usuários podem sair de grupos
+CREATE POLICY "Usuários podem sair de grupos"
+    ON public.grupo_members FOR DELETE
+    USING (auth.uid() = user_id);
 
 -- ========================================
 -- 4. TABELA DE POSTS EM GRUPOS
@@ -121,6 +146,16 @@ CREATE POLICY "Membros podem criar posts"
         )
     );
 
+-- Política: Autor pode atualizar seu post
+CREATE POLICY "Autor pode atualizar próprio post"
+    ON public.grupo_posts FOR UPDATE
+    USING (auth.uid() = author_id);
+
+-- Política: Autor pode deletar seu post
+CREATE POLICY "Autor pode deletar próprio post"
+    ON public.grupo_posts FOR DELETE
+    USING (auth.uid() = author_id);
+
 -- ========================================
 -- 5. TABELA DE EVENTOS
 -- ========================================
@@ -155,6 +190,26 @@ CREATE POLICY "Admins podem criar eventos"
         )
     );
 
+-- Política: Admins podem atualizar eventos
+CREATE POLICY "Admins podem atualizar eventos"
+    ON public.eventos FOR UPDATE
+    USING (
+        EXISTS (
+            SELECT 1 FROM public.profiles
+            WHERE id = auth.uid() AND role = 'admin'
+        )
+    );
+
+-- Política: Admins podem deletar eventos
+CREATE POLICY "Admins podem deletar eventos"
+    ON public.eventos FOR DELETE
+    USING (
+        EXISTS (
+            SELECT 1 FROM public.profiles
+            WHERE id = auth.uid() AND role = 'admin'
+        )
+    );
+
 -- ========================================
 -- 6. TABELA DE AGENDAMENTOS
 -- ========================================
@@ -183,6 +238,16 @@ CREATE POLICY "Usuários podem criar agendamentos"
     ON public.agendamentos FOR INSERT
     WITH CHECK (auth.uid() = user_id);
 
+-- Política: Usuários podem atualizar seus agendamentos
+CREATE POLICY "Usuários podem atualizar agendamentos"
+    ON public.agendamentos FOR UPDATE
+    USING (auth.uid() = user_id);
+
+-- Política: Usuários podem deletar seus agendamentos
+CREATE POLICY "Usuários podem deletar agendamentos"
+    ON public.agendamentos FOR DELETE
+    USING (auth.uid() = user_id);
+
 -- ========================================
 -- 7. TABELA DE PROGRAMAS
 -- ========================================
@@ -204,6 +269,36 @@ ALTER TABLE public.programas ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Programas são públicos"
     ON public.programas FOR SELECT
     USING (true);
+
+-- Política: Admins podem criar programas
+CREATE POLICY "Admins podem criar programas"
+    ON public.programas FOR INSERT
+    WITH CHECK (
+        EXISTS (
+            SELECT 1 FROM public.profiles
+            WHERE id = auth.uid() AND role = 'admin'
+        )
+    );
+
+-- Política: Admins podem atualizar programas
+CREATE POLICY "Admins podem atualizar programas"
+    ON public.programas FOR UPDATE
+    USING (
+        EXISTS (
+            SELECT 1 FROM public.profiles
+            WHERE id = auth.uid() AND role = 'admin'
+        )
+    );
+
+-- Política: Admins podem deletar programas
+CREATE POLICY "Admins podem deletar programas"
+    ON public.programas FOR DELETE
+    USING (
+        EXISTS (
+            SELECT 1 FROM public.profiles
+            WHERE id = auth.uid() AND role = 'admin'
+        )
+    );
 
 -- ========================================
 -- 8. FUNÇÕES AUXILIARES
@@ -232,6 +327,9 @@ CREATE TRIGGER update_eventos_updated_at BEFORE UPDATE ON public.eventos
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 CREATE TRIGGER update_agendamentos_updated_at BEFORE UPDATE ON public.agendamentos
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_programas_updated_at BEFORE UPDATE ON public.programas
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- Função para criar perfil automaticamente quando usuário se registra
@@ -280,3 +378,49 @@ CREATE TRIGGER update_member_count_on_delete
     AFTER DELETE ON public.grupo_members
     FOR EACH ROW EXECUTE FUNCTION update_grupo_member_count();
 
+-- ========================================
+-- 9. ÍNDICES PARA MELHOR PERFORMANCE
+-- ========================================
+
+-- Índices para perfis
+CREATE INDEX IF NOT EXISTS idx_profiles_email ON public.profiles(email);
+CREATE INDEX IF NOT EXISTS idx_profiles_role ON public.profiles(role);
+
+-- Índices para grupos
+CREATE INDEX IF NOT EXISTS idx_grupos_created_by ON public.grupos(created_by);
+CREATE INDEX IF NOT EXISTS idx_grupos_is_public ON public.grupos(is_public);
+
+-- Índices para membros de grupos
+CREATE INDEX IF NOT EXISTS idx_grupo_members_grupo_id ON public.grupo_members(grupo_id);
+CREATE INDEX IF NOT EXISTS idx_grupo_members_user_id ON public.grupo_members(user_id);
+CREATE INDEX IF NOT EXISTS idx_grupo_members_composite ON public.grupo_members(grupo_id, user_id);
+
+-- Índices para posts de grupos
+CREATE INDEX IF NOT EXISTS idx_grupo_posts_grupo_id ON public.grupo_posts(grupo_id);
+CREATE INDEX IF NOT EXISTS idx_grupo_posts_author_id ON public.grupo_posts(author_id);
+CREATE INDEX IF NOT EXISTS idx_grupo_posts_created_at ON public.grupo_posts(created_at DESC);
+
+-- Índices para eventos
+CREATE INDEX IF NOT EXISTS idx_eventos_date ON public.eventos(date);
+CREATE INDEX IF NOT EXISTS idx_eventos_created_by ON public.eventos(created_by);
+
+-- Índices para agendamentos
+CREATE INDEX IF NOT EXISTS idx_agendamentos_user_id ON public.agendamentos(user_id);
+CREATE INDEX IF NOT EXISTS idx_agendamentos_status ON public.agendamentos(status);
+CREATE INDEX IF NOT EXISTS idx_agendamentos_scheduled_date ON public.agendamentos(scheduled_date);
+
+-- Índices para programas
+CREATE INDEX IF NOT EXISTS idx_programas_is_free ON public.programas(is_free);
+CREATE INDEX IF NOT EXISTS idx_programas_created_at ON public.programas(created_at DESC);
+
+-- ========================================
+-- 10. COMENTÁRIOS NAS TABELAS (DOCUMENTAÇÃO)
+-- ========================================
+
+COMMENT ON TABLE public.profiles IS 'Perfis de usuários do sistema';
+COMMENT ON TABLE public.grupos IS 'Grupos de discussão e colaboração';
+COMMENT ON TABLE public.grupo_members IS 'Relação de membros em grupos';
+COMMENT ON TABLE public.grupo_posts IS 'Posts publicados em grupos';
+COMMENT ON TABLE public.eventos IS 'Eventos do ZooMonitor';
+COMMENT ON TABLE public.agendamentos IS 'Agendamentos de serviços';
+COMMENT ON TABLE public.programas IS 'Programas educacionais oferecidos';

@@ -5,7 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eventos - ZooMonitor</title>
     <link rel="stylesheet" href="../css/global/styles.css">
+    <link rel="stylesheet" href="../css/global/notifications.css">
+    <link rel="stylesheet" href="../css/global/newsletter-popup.css">
+    <link rel="stylesheet" href="../css/global/header-login.css">
+    <link rel="stylesheet" href="../css/global/auth-error-handler.css">
+    <link rel="stylesheet" href="../css/pages/index.css">
     <link rel="stylesheet" href="../css/pages/eventos.css">
+    <link rel="stylesheet" href="../css/pages/eventos-stack.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -53,11 +59,16 @@
             </div>
             <div class="header-right-controls">
                 <div class="nav-dropdown">
-                    <a href="#" class="nav-link nav-dropdown-toggle">☰</a>
-                    <div class="nav-dropdown-menu">
-                        <a href="agendamento-online.html" class="nav-dropdown-link">Agendamento online</a>
-                        <a href="lista-programas.html" class="nav-dropdown-link">Lista de programas</a>
-                        <a href="eventos.html" class="nav-dropdown-link">Eventos</a>
+                    <a href="#" class="nav-link nav-dropdown-toggle" id="mobileMenuToggle">☰</a>
+                    <div class="nav-dropdown-menu" id="mobileMenu">
+                        <a href="../index.html#inicio" class="nav-dropdown-link nav-dropdown-link-mobile">Início</a>
+                        <a href="../index.html#bem-vindo" class="nav-dropdown-link nav-dropdown-link-mobile">Bem-vindo</a>
+                        <a href="grupos.html" class="nav-dropdown-link nav-dropdown-link-mobile">Grupos</a>
+                        <a href="membros.html" class="nav-dropdown-link nav-dropdown-link-mobile">Membros</a>
+                        <div class="nav-dropdown-divider nav-dropdown-divider-mobile"></div>
+                        <a href="agendamento-online.html" class="nav-dropdown-link nav-dropdown-link-desktop">Agendamento online</a>
+                        <a href="lista-programas.html" class="nav-dropdown-link nav-dropdown-link-desktop">Lista de programas</a>
+                        <a href="eventos.html" class="nav-dropdown-link nav-dropdown-link-desktop">Eventos</a>
                     </div>
                 </div>
             </div>
@@ -67,22 +78,31 @@
     <!-- Eventos Page -->
     <section class="eventos-page">
         <div class="container">
+            <div class="eventos-header">
+                <h1 class="eventos-page-title">Eventos</h1>
+                <div class="eventos-page-divider"></div>
+                <div class="eventos-social">
+                    <a href="#" class="eventos-social-icon" aria-label="Facebook">f</a>
+                    <a href="#" class="eventos-social-icon" aria-label="Twitter">X</a>
+                    <a href="#" class="eventos-social-icon" aria-label="LinkedIn">in</a>
+                </div>
+            </div>
             <div class="eventos-cards">
-                <div class="evento-card">
+                <div class="evento-card" data-evento-id="workshop-2050">
                     <div class="evento-card-image">
                         <img src="../images/rinocerontes.avif" alt="Workshop de Bem-Estar Animal 2050">
                     </div>
                     <div class="evento-card-content">
                         <h3 class="evento-card-title">Workshop de Bem-Estar Animal 2050</h3>
                         <p class="evento-card-date">dom., 02 de nov. | Centro de Convenções Zoológico</p>
-                        <a href="workshop.html" class="evento-card-link">Mais informações</a>
-                        <a href="workshop.html" class="evento-card-button">Informações</a>
+                        <a href="#" class="evento-card-link">Mais informações</a>
+                        <a href="#" class="evento-card-button">Informações</a>
                     </div>
                 </div>
                 
-                <div class="evento-card">
+                <div class="evento-card" data-evento-id="festa-2070">
                     <div class="evento-card-image">
-                        <img src="../images/evento-festa.jpg" alt="Festa de Celebração ZooMonitor 2070">
+                        <img src="../images/7d9a32_1204d34dfa164bc18e2aa6c8d9dcceaf~mv2.avif" alt="Festa de Celebração ZooMonitor 2070">
                     </div>
                     <div class="evento-card-content">
                         <h3 class="evento-card-title">Festa de Celebração ZooMonitor 2070</h3>
@@ -92,9 +112,9 @@
                     </div>
                 </div>
                 
-                <div class="evento-card">
+                <div class="evento-card" data-evento-id="conferencia-futuro">
                     <div class="evento-card-image">
-                        <img src="../images/evento-conferencia.jpg" alt="Conferência Futuro da Monitorização de Fauna">
+                        <img src="../images/7d9a32_3472cee9f04242d09611359b68ad7296~mv2.avif" alt="Conferência Futuro da Monitorização de Fauna">
                     </div>
                     <div class="evento-card-content">
                         <h3 class="evento-card-title">Conferência Futuro da Monitorização de Fauna</h3>
@@ -107,8 +127,125 @@
         </div>
     </section>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <h2 class="footer-brand">ZooMonitor</h2>
+                    <div class="footer-newsletter">
+                        <h3 class="footer-newsletter-title">Fique Conectado</h3>
+                        <form class="footer-form">
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email *</label>
+                                <input type="email" id="email" class="form-input" required>
+                            </div>
+                            <div class="form-checkbox-group">
+                                <input type="checkbox" id="newsletter" class="form-checkbox" required>
+                                <label for="newsletter" class="form-checkbox-label">Yes, subscribe me to your newsletter. *</label>
+                            </div>
+                            <button type="submit" class="form-button">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="footer-right">
+                    <div class="footer-right-content">
+                        <div class="footer-contact">
+                            <h4 class="footer-contact-title">Contato</h4>
+                            <div class="footer-contact-divider"></div>
+                            <div class="footer-contact-item-wrapper">
+                                <span class="footer-contact-icon">📞</span>
+                                <p class="footer-contact-item">(11) 3456-7890</p>
+                            </div>
+                            <div class="footer-contact-item-wrapper">
+                                <span class="footer-contact-icon">✉️</span>
+                                <p class="footer-contact-item">info@zoomonitor.com</p>
+                            </div>
+                            <div class="footer-address">
+                                <div class="footer-contact-item-wrapper">
+                                    <span class="footer-contact-icon">📍</span>
+                                    <div class="footer-address-text">
+                                        <p class="footer-contact-item">Rua Dom Manoel da</p>
+                                        <p class="footer-contact-item">Costa, Torre, Recife,</p>
+                                        <p class="footer-contact-item">Pernambuco - CEP 50710375</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer-social-section">
+                            <h4 class="footer-social-title">Siga-nos</h4>
+                            <div class="footer-contact-divider"></div>
+                            <div class="footer-social">
+                                <a href="#" class="social-icon" aria-label="Facebook" title="Facebook">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                                </a>
+                                <a href="#" class="social-icon" aria-label="Instagram" title="Instagram">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                                </a>
+                                <a href="#" class="social-icon" aria-label="Twitter" title="Twitter">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                                </a>
+                                <a href="#" class="social-icon" aria-label="TikTok" title="TikTok">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-links-wrapper">
+                        <h4 class="footer-links-title">Informações Legais</h4>
+                        <div class="footer-contact-divider"></div>
+                        <div class="footer-links">
+                            <a href="#" class="footer-link">Política de Privacidade</a>
+                            <a href="#" class="footer-link">Declaração de acessibilidade</a>
+                            <a href="#" class="footer-link">Termos e Condições</a>
+                            <a href="#" class="footer-link">Política de Reembolso</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    <p>&copy; 2024 ZooMonitor. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Popup de Newsletter -->
+    <div class="newsletter-popup-overlay" id="newsletterPopup">
+        <div class="newsletter-popup">
+            <button class="newsletter-popup-close" id="newsletterPopupClose" aria-label="Fechar">×</button>
+            <div class="newsletter-popup-icon">✅</div>
+            <h3 class="newsletter-popup-title">Inscrição Confirmada!</h3>
+            <p class="newsletter-popup-message">
+                Obrigado por se inscrever! Você receberá nossas novidades e atualizações em breve no seu email.
+            </p>
+            <button class="newsletter-popup-button" id="newsletterPopupButton">Fechar</button>
+        </div>
+    </div>
+
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script>
+        // Configurar Supabase
+        const SUPABASE_URL = 'https://gsprpjvuukuxaozykhwr.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdzcHJwanZ1dWt1eGFvenlraHdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ1MDcyODMsImV4cCI6MjA4MDA4MzI4M30.P0EFPXB94kWk2amUkdNiWbZ6xZJUySqkjek3nHkqkPw';
+        window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: {
+                persistSession: true,
+                autoRefreshToken: true,
+                detectSessionInUrl: true
+            }
+        });
+    </script>
+    
+    <script src="../js/notifications.js"></script>
     <script src="../js/accessibility.js"></script>
     <script src="../js/script.js"></script>
+    <script src="../js/eventos-stack.js"></script>
+    <script src="../js/header-login.js"></script>
+    <script src="../js/auth-error-handler.js"></script>
+    <script type="module" src="../js/user-profile.js"></script>
 </body>
 </html>
 

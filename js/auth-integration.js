@@ -30,18 +30,30 @@ async function initAuth() {
     }
 
     // Listener para mudanças de autenticação
-    supabase.auth.onAuthStateChange((event, session) => {
-        if (event === 'SIGNED_IN') {
+    supabase.auth.onAuthStateChange(async (event, session) => {
+        if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+            // Garantir que o perfil existe
+            if (session && session.user) {
+                await ensureUserProfile(supabase, session.user);
+            }
             handleLoggedInUser(session);
             // Atualizar header com perfil
             if (window.updateHeaderWithProfile) {
-                window.updateHeaderWithProfile();
+                await window.updateHeaderWithProfile();
             }
         } else if (event === 'SIGNED_OUT') {
             handleLoggedOutUser();
             // Remover perfil do header
             if (window.removeProfileFromHeader) {
                 window.removeProfileFromHeader();
+            }
+        } else if (event === 'USER_UPDATED') {
+            // Quando o email é confirmado, garantir que o perfil existe
+            if (session && session.user) {
+                await ensureUserProfile(supabase, session.user);
+                if (window.updateHeaderWithProfile) {
+                    await window.updateHeaderWithProfile();
+                }
             }
         }
     });
@@ -220,6 +232,11 @@ async function handleEmailLogin(supabase, form) {
 
         if (error) throw error;
 
+        // Remover botão de login imediatamente após login bem-sucedido
+        if (window.removeLoginButtonFromHeader) {
+            window.removeLoginButtonFromHeader();
+        }
+
         // Login bem-sucedido - o listener onAuthStateChange vai atualizar a UI
         if (window.notifications) {
             window.notifications.success('Login realizado com sucesso!');
@@ -255,6 +272,52 @@ async function handleEmailLogin(supabase, form) {
             submitButton.disabled = false;
             submitButton.textContent = 'Entrar';
         }
+    }
+}
+
+/**
+ * Garantir que o perfil do usuário existe no banco
+ */
+async function ensureUserProfile(supabase, user) {
+    if (!user || !user.id) return;
+
+    try {
+        // Verificar se o perfil já existe
+        const { data: existingProfile, error: selectError } = await supabase
+            .from('profiles')
+            .select('id')
+            .eq('id', user.id)
+            .single();
+
+        if (existingProfile) {
+            // Perfil já existe
+            return;
+        }
+
+        // Criar perfil se não existir
+        const fullName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Usuário';
+        
+        const { error: insertError } = await supabase
+            .from('profiles')
+            .insert({
+                id: user.id,
+                email: user.email,
+                full_name: fullName,
+                avatar_url: null,
+                role: 'member',
+                is_public: true
+            });
+
+        if (insertError) {
+            // Se o erro for de duplicata, tudo bem (pode ter sido criado pelo trigger)
+            if (!insertError.message.includes('duplicate') && !insertError.message.includes('already exists')) {
+                console.error('Erro ao criar perfil:', insertError);
+            }
+        } else {
+            console.log('Perfil criado com sucesso para:', user.email);
+        }
+    } catch (error) {
+        console.error('Erro ao garantir perfil:', error);
     }
 }
 
@@ -308,6 +371,11 @@ async function handleEmailRegister(supabase, form) {
 
         if (error) throw error;
 
+        // Tentar criar perfil imediatamente (mesmo antes da confirmação do email)
+        if (data.user) {
+            await ensureUserProfile(supabase, data.user);
+        }
+
         // Mostrar notificação de sucesso
         if (window.notifications) {
             window.notifications.success('Registro realizado com sucesso! Verifique seu email para confirmar a conta.');
@@ -358,10 +426,13 @@ function handleLoggedInUser(session) {
     // Atualizar UI para mostrar que está logado
     const membersContent = document.querySelector('.members-content');
     if (membersContent) {
+        const displayName = session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'Usuário';
         membersContent.innerHTML = `
-            <h1 class="members-title">Bem-vindo, ${session.user.email}!</h1>
-            <p class="members-subtitle">Você está conectado ao ZooMonitor.</p>
-            <button class="members-login-button" onclick="handleLogout()">Sair</button>
+            <h1 class="members-title">Bem-vindo,</h1>
+            <p class="members-subtitle" style="font-size: 16px; margin-bottom: 20px; word-break: break-word;">${session.user.email}</p>
+            <div style="width: 100%; max-width: 200px; height: 1px; background: linear-gradient(to right, transparent, var(--beige), transparent); margin: 15px 0;"></div>
+            <p class="members-subtitle" style="margin-bottom: 30px;">Você está conectado ao<br>ZooMonitor.</p>
+            <button class="members-login-button" onclick="handleLogout()" style="width: 100%; max-width: 200px;">Sair</button>
         `;
     }
 }
