@@ -141,10 +141,28 @@ async function handleHeaderLogin(form) {
 
         if (error) {
             console.error('Erro ao fazer login:', error);
-            if (window.notifications) {
-                window.notifications.error(error.message || 'Erro ao fazer login. Verifique suas credenciais.');
+            
+            // Mensagens de erro mais específicas
+            let errorMessage = 'Erro ao fazer login. ';
+            
+            if (error.message.includes('Invalid login credentials') || 
+                error.message.includes('invalid_credentials') ||
+                error.message.includes('Invalid login')) {
+                errorMessage = 'Email ou senha incorretos. Verifique suas credenciais e tente novamente.';
+            } else if (error.message.includes('Email not confirmed') || 
+                       error.message.includes('email_not_confirmed')) {
+                errorMessage = 'Por favor, confirme seu email antes de fazer login. Verifique sua caixa de entrada.';
+            } else if (error.message.includes('rate limit') || 
+                       error.message.includes('25 seconds')) {
+                errorMessage = '⏱️ Aguarde alguns segundos antes de tentar novamente. Por segurança, há um limite de tentativas.';
             } else {
-                alert(error.message || 'Erro ao fazer login. Verifique suas credenciais.');
+                errorMessage += error.message || 'Verifique suas credenciais.';
+            }
+            
+            if (window.notifications) {
+                window.notifications.error(errorMessage);
+            } else {
+                alert(errorMessage);
             }
             return;
         }
