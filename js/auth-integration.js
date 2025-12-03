@@ -375,16 +375,47 @@ async function handleEmailRegister(supabase, form) {
             await ensureUserProfile(supabase, data.user);
         }
 
+        // Fazer login automático após registro (sem confirmação de email)
+        // Nota: A confirmação de email deve estar desabilitada nas configurações do Supabase
+        const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
+            email,
+            password
+        });
+
+        if (loginError) {
+            // Se o login falhar (por exemplo, se a confirmação de email estiver habilitada no Supabase),
+            // mostrar mensagem informativa
+            console.warn('Login automático falhou:', loginError);
+            if (window.notifications) {
+                window.notifications.warning('Conta criada! Por favor, faça login manualmente.');
+            }
+        } else if (loginData.user) {
+            // Login automático bem-sucedido
+            if (window.removeLoginButtonFromHeader) {
+                window.removeLoginButtonFromHeader();
+            }
+            
+            // Atualizar header com perfil
+            if (window.updateHeaderWithProfile) {
+                await window.updateHeaderWithProfile();
+            }
+        }
+
         // Mostrar notificação de sucesso
         if (window.notifications) {
-            window.notifications.success('Registro realizado com sucesso! Você já pode fazer login.');
+            window.notifications.success('Registro realizado com sucesso! Você já está logado.');
         } else {
-            alert('Registro realizado com sucesso! Você já pode fazer login.');
+            alert('Registro realizado com sucesso! Você já está logado.');
         }
         
         // Limpar formulário
         form.reset();
         closeRegisterModal();
+        
+        // Recarregar página para atualizar UI
+        setTimeout(() => {
+            location.reload();
+        }, 500);
     } catch (error) {
         console.error('Erro ao registrar:', error);
         
@@ -450,8 +481,18 @@ async function handleLogout() {
     }
 }
 
+// Função para fechar modal de registro (se não estiver definida)
+function closeRegisterModal() {
+    const modal = document.getElementById('registerModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+}
+
 // Exportar funções globais
 window.handleLogout = handleLogout;
 window.showLoginForm = showLoginForm;
 window.showEmailRegisterForm = showEmailRegisterForm;
+window.closeRegisterModal = closeRegisterModal;
 

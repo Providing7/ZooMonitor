@@ -200,7 +200,7 @@ async function handleResendConfirmationEmail(form) {
 }
 
 // Inicializar quando DOM estiver pronto
-// DESABILITADO: Confirmação de email foi removida
+// DESABILITADO: Confirmação de email foi removida - não processar erros de confirmação
 // if (document.readyState === 'loading') {
 //     document.addEventListener('DOMContentLoaded', () => {
 //         handleAuthErrorsInURL();

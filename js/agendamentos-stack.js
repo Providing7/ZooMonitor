@@ -346,7 +346,7 @@ class AgendamentosStack {
                             <span class="agendamento-item-status" style="background-color: ${statusColors[agendamento.status] || '#6C757D'}">
                                 ${statusLabels[agendamento.status] || agendamento.status}
                             </span>
-                            <p class="agendamento-item-price">R$ ${parseFloat(agendamento.price || 0).toFixed(2)}</p>
+                            <p class="agendamento-item-price">R$ ${(parseFloat(agendamento.price) || 0).toFixed(2)}</p>
                         </div>
                     </div>
                     <div class="agendamento-item-actions">
@@ -417,13 +417,25 @@ class AgendamentosStack {
 
             const servicoType = form.querySelector('#agendamentoServicoType').value;
             const servicoName = form.querySelector('#agendamentoServicoName').value;
-            const price = parseFloat(form.querySelector('#agendamentoPrice').value);
+            const priceInput = form.querySelector('#agendamentoPrice');
+            const price = priceInput ? parseFloat(priceInput.value) || 0 : 0;
             const scheduledDate = form.querySelector('#agendamentoDate').value;
-            const notes = form.querySelector('#agendamentoNotes').value;
+            const notesInput = form.querySelector('#agendamentoNotes');
+            const notes = notesInput ? notesInput.value.trim() : '';
 
             if (!scheduledDate) {
                 if (window.notifications) {
                     window.notifications.warning('Por favor, selecione uma data e hora.');
+                }
+                return;
+            }
+
+            // Validar data não pode ser no passado
+            const selectedDate = new Date(scheduledDate);
+            const now = new Date();
+            if (selectedDate < now) {
+                if (window.notifications) {
+                    window.notifications.warning('Por favor, selecione uma data futura.');
                 }
                 return;
             }
