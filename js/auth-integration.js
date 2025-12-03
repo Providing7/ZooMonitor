@@ -48,7 +48,7 @@ async function initAuth() {
                 window.removeProfileFromHeader();
             }
         } else if (event === 'USER_UPDATED') {
-            // Quando o email é confirmado, garantir que o perfil existe
+            // Quando o usuário é atualizado, garantir que o perfil existe
             if (session && session.user) {
                 await ensureUserProfile(supabase, session.user);
                 if (window.updateHeaderWithProfile) {
@@ -253,8 +253,6 @@ async function handleEmailLogin(supabase, form) {
         
         if (error.message.includes('Invalid login credentials') || error.message.includes('invalid')) {
             errorMessage = 'Email ou senha incorretos. Verifique e tente novamente.';
-        } else if (error.message.includes('Email not confirmed')) {
-            errorMessage = 'Por favor, confirme seu email antes de fazer login. Verifique sua caixa de entrada.';
         } else if (error.message.includes('rate limit') || error.message.includes('25 seconds')) {
             errorMessage = '⏱️ Aguarde alguns segundos antes de tentar novamente. Por segurança, há um limite de tentativas.';
         } else {
@@ -365,22 +363,23 @@ async function handleEmailRegister(supabase, form) {
             options: {
                 data: {
                     full_name: fullName
-                }
+                },
+                emailRedirectTo: null
             }
         });
 
         if (error) throw error;
 
-        // Tentar criar perfil imediatamente (mesmo antes da confirmação do email)
+        // Criar perfil imediatamente após registro
         if (data.user) {
             await ensureUserProfile(supabase, data.user);
         }
 
         // Mostrar notificação de sucesso
         if (window.notifications) {
-            window.notifications.success('Registro realizado com sucesso! Verifique seu email para confirmar a conta.');
+            window.notifications.success('Registro realizado com sucesso! Você já pode fazer login.');
         } else {
-            alert('Registro realizado com sucesso! Verifique seu email para confirmar a conta.');
+            alert('Registro realizado com sucesso! Você já pode fazer login.');
         }
         
         // Limpar formulário

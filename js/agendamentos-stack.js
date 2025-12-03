@@ -376,7 +376,8 @@ class AgendamentosStack {
         agendamentosView.addEventListener('click', async (e) => {
             if (e.target.classList.contains('agendamento-item-delete')) {
                 const agendamentoId = e.target.dataset.agendamentoId;
-                if (confirm('Tem certeza que deseja excluir este agendamento?')) {
+                const confirmed = await this.showDeleteConfirmation();
+                if (confirmed) {
                     await this.deleteAgendamento(agendamentoId);
                 }
             }
@@ -507,6 +508,83 @@ class AgendamentosStack {
         } catch (error) {
             console.error('Erro ao cancelar agendamento:', error);
         }
+    }
+
+    /**
+     * Mostrar modal de confirmação de exclusão
+     * @returns {Promise<boolean>} true se confirmado, false se cancelado
+     */
+    showDeleteConfirmation() {
+        return new Promise((resolve) => {
+            // Verificar se já existe um modal
+            let modal = document.getElementById('deleteAgendamentoModal');
+            if (modal) {
+                modal.remove();
+            }
+
+            // Criar modal
+            modal = document.createElement('div');
+            modal.id = 'deleteAgendamentoModal';
+            modal.className = 'delete-confirmation-modal-overlay';
+            modal.innerHTML = `
+                <div class="delete-confirmation-modal">
+                    <div class="delete-confirmation-icon">⚠️</div>
+                    <h2 class="delete-confirmation-title">Confirmar Exclusão</h2>
+                    <p class="delete-confirmation-message">
+                        Tem certeza que deseja excluir este agendamento?<br>
+                        <span class="delete-confirmation-warning">Esta ação não pode ser desfeita.</span>
+                    </p>
+                    <div class="delete-confirmation-actions">
+                        <button class="delete-confirmation-cancel" id="deleteConfirmationCancel">
+                            Cancelar
+                        </button>
+                        <button class="delete-confirmation-confirm" id="deleteConfirmationConfirm">
+                            Excluir
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
+
+            // Animar entrada
+            setTimeout(() => {
+                modal.classList.add('delete-confirmation-modal-show');
+            }, 10);
+
+            // Event listeners
+            const cancelBtn = modal.querySelector('#deleteConfirmationCancel');
+            const confirmBtn = modal.querySelector('#deleteConfirmationConfirm');
+
+            const closeModal = (result) => {
+                modal.classList.remove('delete-confirmation-modal-show');
+                setTimeout(() => {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                    resolve(result);
+                }, 200);
+            };
+
+            cancelBtn.addEventListener('click', () => closeModal(false));
+            confirmBtn.addEventListener('click', () => closeModal(true));
+
+            // Fechar ao clicar no overlay
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal(false);
+                }
+            });
+
+            // Fechar com ESC
+            const handleEsc = (e) => {
+                if (e.key === 'Escape') {
+                    closeModal(false);
+                    document.removeEventListener('keydown', handleEsc);
+                }
+            };
+            document.addEventListener('keydown', handleEsc);
+        });
     }
 
     async deleteAgendamento(agendamentoId) {

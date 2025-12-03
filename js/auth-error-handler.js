@@ -200,13 +200,14 @@ async function handleResendConfirmationEmail(form) {
 }
 
 // Inicializar quando DOM estiver pronto
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        handleAuthErrorsInURL();
-    });
-} else {
-    handleAuthErrorsInURL();
-}
+// DESABILITADO: Confirmação de email foi removida
+// if (document.readyState === 'loading') {
+//     document.addEventListener('DOMContentLoaded', () => {
+//         handleAuthErrorsInURL();
+//     });
+// } else {
+//     handleAuthErrorsInURL();
+// }
 
 // Exportar funções globais
 window.handleAuthErrorsInURL = handleAuthErrorsInURL;

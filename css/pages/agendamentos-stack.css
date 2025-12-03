@@ -562,3 +562,188 @@
     background: rgba(0, 0, 0, 0.1);
 }
 
+/* Modal de Confirmação de Exclusão */
+.delete-confirmation-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.delete-confirmation-modal-overlay.delete-confirmation-modal-show {
+    opacity: 1;
+}
+
+.delete-confirmation-modal {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    border-radius: 16px;
+    padding: 40px;
+    max-width: 450px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transform: scale(0.9) translateY(20px);
+    transition: transform 0.2s ease;
+    text-align: center;
+}
+
+.delete-confirmation-modal-overlay.delete-confirmation-modal-show .delete-confirmation-modal {
+    transform: scale(1) translateY(0);
+}
+
+.delete-confirmation-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.delete-confirmation-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--white);
+    margin: 0 0 20px 0;
+}
+
+.delete-confirmation-message {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+    margin: 0 0 30px 0;
+}
+
+.delete-confirmation-warning {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #FF6B6B;
+    font-weight: 500;
+}
+
+.delete-confirmation-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.delete-confirmation-cancel,
+.delete-confirmation-confirm {
+    flex: 1;
+    min-width: 120px;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-height: 48px;
+}
+
+.delete-confirmation-cancel {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.delete-confirmation-cancel:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.delete-confirmation-confirm {
+    background: linear-gradient(135deg, #DC3545 0%, #C82333 100%);
+    color: var(--white);
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+}
+
+.delete-confirmation-confirm:hover {
+    background: linear-gradient(135deg, #C82333 0%, #BD2130 100%);
+    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+    transform: translateY(-2px);
+}
+
+.delete-confirmation-confirm:active {
+    transform: translateY(0);
+}
+
+/* Responsivo - Modal de Confirmação */
+@media (max-width: 768px) {
+    .delete-confirmation-modal {
+        padding: 30px 20px;
+        max-width: 90%;
+    }
+
+    .delete-confirmation-icon {
+        font-size: 48px;
+    }
+
+    .delete-confirmation-title {
+        font-size: 24px;
+    }
+
+    .delete-confirmation-message {
+        font-size: 14px;
+    }
+
+    .delete-confirmation-actions {
+        flex-direction: column;
+    }
+
+    .delete-confirmation-cancel,
+    .delete-confirmation-confirm {
+        width: 100%;
+    }
+}
+
+/* Modo claro - Modal de Confirmação */
+[data-theme="light"] .delete-confirmation-modal {
+    background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+    border-color: var(--light-green);
+}
+
+[data-theme="light"] .delete-confirmation-title {
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .delete-confirmation-message {
+    color: var(--text-secondary);
+}
+
+[data-theme="light"] .delete-confirmation-cancel {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: var(--light-green);
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .delete-confirmation-cancel:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
