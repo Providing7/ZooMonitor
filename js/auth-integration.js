@@ -378,13 +378,10 @@ async function handleEmailRegister(supabase, form) {
         console.log('Registro bem-sucedido. User:', data.user);
         console.log('Session:', data.session);
 
-        // Criar perfil imediatamente após registro
-        if (data.user) {
-            await ensureUserProfile(supabase, data.user);
-        }
-
         // Verificar se já temos uma sessão (se confirmação de email estiver desabilitada)
         if (data.session && data.user) {
+            // Criar perfil imediatamente após registro (só se tiver sessão)
+            await ensureUserProfile(supabase, data.user);
             // Já estamos logados! A confirmação de email está desabilitada
             console.log('Login automático via signUp bem-sucedido');
             
@@ -413,62 +410,24 @@ async function handleEmailRegister(supabase, form) {
                 location.reload();
             }, 500);
         } else {
-            // Não temos sessão - confirmação de email pode estar habilitada
-            // Tentar fazer login manualmente
-            console.log('Tentando login automático após registro...');
+            // Não temos sessão - confirmação de email está habilitada no Supabase
+            console.warn('Session é null - confirmação de email está habilitada');
             
-            const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
-                email,
-                password
-            });
-
-            if (loginError) {
-                console.error('Login automático falhou:', loginError);
-                
-                // Verificar se é erro de email não confirmado
-                if (loginError.message.includes('Email not confirmed') || 
-                    loginError.message.includes('email_not_confirmed')) {
-                    if (window.notifications) {
-                        window.notifications.warning('Conta criada! Por favor, verifique seu email para confirmar a conta antes de fazer login.');
-                    } else {
-                        alert('Conta criada! Por favor, verifique seu email para confirmar a conta antes de fazer login.');
-                    }
-                } else {
-                    if (window.notifications) {
-                        window.notifications.warning('Conta criada! Por favor, faça login manualmente.');
-                    } else {
-                        alert('Conta criada! Por favor, faça login manualmente.');
-                    }
-                }
-            } else if (loginData.user) {
-                console.log('Login automático bem-sucedido');
-                
-                // Login automático bem-sucedido
-                if (window.removeLoginButtonFromHeader) {
-                    window.removeLoginButtonFromHeader();
-                }
-                
-                // Atualizar header com perfil
-                if (window.updateHeaderWithProfile) {
-                    await window.updateHeaderWithProfile();
-                }
-
-                // Mostrar notificação de sucesso
-                if (window.notifications) {
-                    window.notifications.success('Registro realizado com sucesso! Você já está logado.');
-                } else {
-                    alert('Registro realizado com sucesso! Você já está logado.');
-                }
-                
-                // Limpar formulário
-                form.reset();
-                closeRegisterModal();
-                
-                // Recarregar página para atualizar UI
-                setTimeout(() => {
-                    location.reload();
-                }, 500);
+            // Não tentar criar perfil nem fazer login automático sem sessão
+            // O perfil será criado automaticamente pelo trigger do banco quando o email for confirmado
+            
+            // Mostrar mensagem informativa
+            if (window.notifications) {
+                window.notifications.warning('Conta criada com sucesso! Por favor, verifique seu email e confirme a conta antes de fazer login.');
+            } else {
+                alert('Conta criada com sucesso! Por favor, verifique seu email e confirme a conta antes de fazer login.');
             }
+            
+            // Limpar formulário
+            form.reset();
+            closeRegisterModal();
+            
+            // Não recarregar a página - deixar o usuário fazer login depois de confirmar
         }
     } catch (error) {
         console.error('Erro ao registrar:', error);

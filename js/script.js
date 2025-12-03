@@ -92,8 +92,14 @@ function initMobileMenu() {
 // Smooth scroll para links de navegação
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        // Validar se href não é apenas "#" ou vazio
+        if (!href || href === '#' || href.length <= 1) {
+            return; // Não fazer nada se for apenas "#"
+        }
+        
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        const target = document.querySelector(href);
         if (target) {
             target.scrollIntoView({
                 behavior: 'smooth',
